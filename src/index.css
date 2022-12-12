@@ -4,7 +4,9 @@
 :root {
   --color_black: #000;
   --color_white: #fff;
-  --color_focus: rgb(38, 78, 255, .7);
+  --color_banner: #073042;
+  --color_green: #2BE080;
+  /* --color_focus: rgb(38, 78, 255, .7); */
 }
 
 html, body {
@@ -12,10 +14,31 @@ html, body {
 }
 
 .body {
-  background-color: var(--color_black);
+  background-color: var(--color_white);
   font-family: Inter, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: var(--color_white);
+  color: var(--color_black);
   box-sizing: border-box;
+}
+
+* {
+  outline: 1px solid rgba(255, 0, 0, .2);
+}
+
+.page {
+  max-width: 1280px;
+  min-width: 320px;
+  margin: 0 auto;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.link {
+  text-decoration: none;
+  color: var(--color_white);
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
 }

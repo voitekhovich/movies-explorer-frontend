@@ -1,0 +1,10 @@
+.button {
+  background-color: var(--color_green);
+  border-radius: 3px;
+  padding: 8px 20px;
+
+  color: var(--color_black);
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+}

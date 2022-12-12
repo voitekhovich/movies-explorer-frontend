@@ -1,0 +1,27 @@
+.header {
+  padding: 0 70px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--color_white);
+  min-height: 74px;
+}
+
+.header__logo {
+  min-width: 38px;
+  min-height: 38px;
+}
+
+@media screen and (max-width: 1279px) {
+  .header {
+    padding-right: 30px;
+    padding-left: 30px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .header {
+    padding-right: 14px;
+    padding-left: 14px;
+  }
+}
