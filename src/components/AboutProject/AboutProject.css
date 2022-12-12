@@ -1,0 +1,62 @@
+.about-project {
+  padding: 110px 70px;
+}
+
+.about-project__table {
+  margin-top: 70px;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+}
+
+.table__sell {
+  width: 550px;
+}
+
+.table__title {
+  margin: 0;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+  letter-spacing: -0.04em;
+}
+
+.table__text {
+  margin: 26px 0 0;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.about-project__timeline {
+  margin-top: 110px;
+  display: grid;
+  grid-template-columns: 228px auto;
+}
+
+.timeline__text {
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+}
+
+.timeline__week {
+  margin: 0;
+  padding: 9px 0;
+  font-weight: 400;
+}
+
+.timeline__week:nth-child(1) {
+  background-color: #2be080;
+}
+
+.timeline__week:nth-child(2) {
+  background-color: #f2f2f2;
+}
+
+.timeline__description {
+  margin: 14px 0 0;
+  font-weight: 500;
+  color: #a0a0a0;
+}

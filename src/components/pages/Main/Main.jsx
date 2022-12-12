@@ -3,14 +3,19 @@ import './Main.css';
 import React from 'react';
 
 import Header from '../../Header/Header';
+import Promo from '../../Promo/Promo';
+import AboutProject from '../../AboutProject/AboutProject';
+import Techs from '../../Techs/Techs';
+import AboutMe from '../../AboutMe/AboutMe';
 
 function Main() {
   return (
     <React.Fragment>
       <Header className='main__header' />
-      <div>
-        MAIN
-      </div>
+      <Promo />
+      <AboutProject />
+      <Techs />
+      <AboutMe />
     </React.Fragment>
   );
 }

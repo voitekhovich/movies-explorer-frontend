@@ -1,0 +1,15 @@
+.block-title__title {
+  margin: 0;
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 27px;
+  letter-spacing: -0.04em;
+  align-self: flex-start;
+}
+
+.block-title__separator {
+  height: 1px;
+  width: 100%;
+  background-color: var(--color_black);
+  margin-top: 23px;
+}
