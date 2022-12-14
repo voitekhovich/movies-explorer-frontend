@@ -9,8 +9,8 @@ import Button from '../Button/Button';
 function NavTab({ className }) {
   return (
     <ul className={cn('nav-tab', className)}>
-      <li><Link to='#' className='link' >Регистрация</Link></li>
-      <li><Button title='Войти' /></li>
+      <li><Link to='/signup' className='link' >Регистрация</Link></li>
+      <li><Link to='/signin'><Button title='Войти' /></Link></li>
     </ul>
   );
 }

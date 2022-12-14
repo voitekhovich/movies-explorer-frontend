@@ -1,7 +1,7 @@
 .promo {
   padding: 75px 70px;
-  background-color: var(--color_banner);
-  color: var(--color_white);
+  background-color: var(--main_promo_background);
+  color: var(--main_promo_text);
   display: flex;
   flex-direction: row-reverse;
   justify-content: space-between;
@@ -33,7 +33,7 @@
   margin-top: 146px;
   padding: 10px 20px;
   background-color: transparent;
-  color: var(--color_white);
+  color: #fff;
   border: 1px solid rgb(255, 255, 255, .6);
   align-self: flex-start;
 }

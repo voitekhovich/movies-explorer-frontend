@@ -17,13 +17,23 @@ function AboutMe() {
           Я люблю слушать музыку. Недавно начал кодить.
           Прошёл курс по веб-разработке.
         </p>
-        <a className='about-me__url' href='https://github.com'>Github</a>
+        <a className='about-me__url' target="_blank" rel="noreferrer"
+          href='https://github.com/voitekhovich'>Github</a>
       </div>
       <p className='about-me__portfolio'>Портфолио</p>
       <ul className='about-me__portfolio-list'>
-        <li className='about-me__portfolio-item'>Статичный сайт</li>
-        <li className='about-me__portfolio-item'>Адаптивный сайт</li>
-        <li className='about-me__portfolio-item'>Одностраничное приложение</li>
+        <li className='about-me__portfolio-item'>
+          <a className='about-me__portfolio-url' target="_blank" rel="noreferrer"
+            href='https://voitekhovich.github.io/how-to-learn/'>Статичный сайт</a>
+        </li>
+        <li className='about-me__portfolio-item'>
+          <a className='about-me__portfolio-url' target="_blank" rel="noreferrer"
+            href='https://voitekhovich.github.io/russian-travel/'>Адаптивный сайт</a>
+        </li>
+        <li className='about-me__portfolio-item'>
+          <a className='about-me__portfolio-url' target="_blank" rel="noreferrer"
+            href='https://github.com/voitekhovich/react-mesto-api-full'>Одностраничное приложение</a>
+        </li>
       </ul>
     </div>
   );

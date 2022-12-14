@@ -48,7 +48,7 @@
 }
 
 .timeline__week:nth-child(1) {
-  background-color: #2be080;
+  background-color: var(--basic);
 }
 
 .timeline__week:nth-child(2) {

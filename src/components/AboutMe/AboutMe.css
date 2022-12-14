@@ -69,7 +69,6 @@
 }
 
 .about-me__portfolio-item {
-  /* max-width: 880px; */
   padding: 19px 0 20px;
   font-weight: 400;
   font-size: 30px;
@@ -87,7 +86,14 @@
   padding-bottom: 0;
 }
 
-.about-me__portfolio-item:after {
+.about-me__portfolio-url {
+  text-decoration: none;
+  color: #000;
+  cursor: pointer;
+  display: block;
+}
+
+.about-me__portfolio-url::after {
   content: url(../../images/link.svg);
   position: absolute;
   right: 0;

@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom';
 function Header({ className }) {
   return (
     <div className={cn('header', className)}>
-      <Link to='#'>
+      <Link to='/'>
         <Logo className='header__logo'/>
       </Link>
       <NavTab className='header__nav-tab' />
