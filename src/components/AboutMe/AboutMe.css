@@ -60,3 +60,35 @@
   line-height: 20px;
   color: #a0a0a0;
 }
+
+.about-me__portfolio-list {
+  margin: 50px 0 0;
+  padding: 0;
+  list-style: none;
+  position: relative;
+}
+
+.about-me__portfolio-item {
+  /* max-width: 880px; */
+  padding: 19px 0 20px;
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 50px;
+  letter-spacing: -0.04em;
+  border-bottom: #e8e8e8 1px solid;
+}
+
+.about-me__portfolio-item:first-child {
+  padding-top: 0;
+}
+
+.about-me__portfolio-item:last-child {
+  border: none;
+  padding-bottom: 0;
+}
+
+.about-me__portfolio-item:after {
+  content: url(../../images/link.svg);
+  position: absolute;
+  right: 0;
+}

@@ -20,6 +20,11 @@ function AboutMe() {
         <a className='about-me__url' href='https://github.com'>Github</a>
       </div>
       <p className='about-me__portfolio'>Портфолио</p>
+      <ul className='about-me__portfolio-list'>
+        <li className='about-me__portfolio-item'>Статичный сайт</li>
+        <li className='about-me__portfolio-item'>Адаптивный сайт</li>
+        <li className='about-me__portfolio-item'>Одностраничное приложение</li>
+      </ul>
     </div>
   );
 }
