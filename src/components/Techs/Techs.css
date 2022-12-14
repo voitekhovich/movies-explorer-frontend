@@ -34,7 +34,7 @@
 
 .techs__list-item {
   width: 90px;
-  padding: 21px 0 22px;
+  padding: 21px 0;
 
   font-weight: 400;
   font-size: 14px;
@@ -44,4 +44,49 @@
 
   background-color: #e8e8e8;
   border-radius: 10px;
+}
+
+@media screen and (max-width: 1279px) {
+  .techs{
+    padding: 90px 50px;
+  }
+  .techs__title {
+    margin-top: 80px;
+  }
+  .techs__description {
+    margin-top: 22px;
+    font-size: 12px;
+    line-height: 18px;
+  }
+  .techs__list {
+    margin-top: 83px;
+  }
+  .techs__list-item {
+    width: 84px;
+    font-size: 12px;
+    line-height: 15px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .techs{
+    padding: 70px 18px;
+  }
+  .techs__title {
+    margin-top: 60px;
+    font-size: 30px;
+    line-height: 36px;
+  }
+  .techs__description {
+    margin-top: 24px;
+    font-size: 11px;
+    line-height: 16px;
+    max-width: 292px;
+  }
+  .techs__list {
+    margin-top: 50px;
+    flex-wrap: wrap;
+    gap: 10px;
+    max-width: 180px;
+  }
 }

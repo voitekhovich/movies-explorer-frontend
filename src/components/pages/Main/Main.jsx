@@ -12,7 +12,7 @@ import Footer from '../../Footer/Footer';
 function Main() {
   return (
     <React.Fragment>
-      <Header className='main__header' />
+      <Header />
       <Promo />
       <AboutProject />
       <Techs />

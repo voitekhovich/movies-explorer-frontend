@@ -4,3 +4,9 @@
   align-items: center;
   gap: 30px;
 }
+
+@media screen and (max-width: 767px) {
+  .nav-tab {
+    gap: 14px;
+  }
+}

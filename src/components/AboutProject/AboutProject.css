@@ -8,14 +8,17 @@
   list-style: none;
   display: flex;
   flex-direction: row;
+  gap: 40px;
+  justify-content: space-between;
 }
 
 .table__sell {
-  width: 550px;
+  max-width: 550px;
 }
 
 .table__title {
   margin: 0;
+  max-width: inherit;
   font-weight: 400;
   font-size: 20px;
   line-height: 24px;
@@ -24,6 +27,7 @@
 
 .table__text {
   margin: 26px 0 0;
+  max-width: inherit;
   font-weight: 400;
   font-size: 14px;
   line-height: 20px;
@@ -32,7 +36,7 @@
 .about-project__timeline {
   margin-top: 110px;
   display: grid;
-  grid-template-columns: 228px auto;
+  grid-template-columns: 1fr 4fr;
 }
 
 .timeline__text {
@@ -59,4 +63,64 @@
   margin: 14px 0 0;
   font-weight: 500;
   color: #a0a0a0;
+}
+
+@media screen and (max-width: 1279px) {
+  .about-project {
+    padding: 90px 50px;
+  }
+
+  .about-project__table {
+    gap: 30px;
+  }
+
+  .table__sell {
+    min-width: 319px;
+  }
+
+  .table__text {
+    margin-top: 22px;
+    font-size: 12px;
+    line-height: 18px;
+  }
+
+  .about-project__timeline {
+    margin-top: 93px;
+  }
+
+  .timeline__description {
+    font-weight: 400;
+  }
+
+}
+
+@media screen and (max-width: 767px) {
+  .about-project {
+    padding: 70px 18px;
+  }
+  .about-project__table {
+    margin-top: 60px;
+    flex-direction: column;
+    gap: 56px;
+  }
+  .table__sell {
+    max-width: 284px;
+  }
+  .table__title {
+    font-size: 18px;
+    line-height: 22px;
+  }
+  .table__text {
+    margin-top: 16px;
+    font-size: 11px;
+    line-height: 16px;
+  }
+  .about-project__timeline {
+    margin-top: 60px;
+    grid-template-columns: 1fr 2fr;
+  }
+  .timeline__text {
+    font-size: 11px;
+    line-height: 13px;
+  }
 }
