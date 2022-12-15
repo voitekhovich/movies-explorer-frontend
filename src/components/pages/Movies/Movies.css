@@ -1,0 +1,49 @@
+.movies__nav-container {
+  margin: 0 0 0 44px;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.movies__navbar {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: 16px;  
+}
+
+.movies__link {
+  text-decoration: none;
+}
+
+.movies__button {
+  background-color: #fff;
+  width: 100px;
+  height: 30px;
+  text-align: start;
+  position: relative;
+  border: none;
+  padding: 0;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.movies__button::after {
+  content: '';
+  background-color: #f9f9f9;
+  background-image: url(../../../images/profile.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  right: 0;
+  margin-left: 13px;
+  border-radius: 6px;
+}

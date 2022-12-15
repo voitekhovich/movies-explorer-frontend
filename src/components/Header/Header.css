@@ -1,10 +1,7 @@
 .header {
   padding: 0 70px;
   display: flex;
-  background-color: var(--main_promo_background);
-  justify-content: space-between;
   align-items: center;
-  color: #fff;
   min-height: 74px;
 }
 

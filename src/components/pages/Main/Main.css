@@ -1,0 +1,18 @@
+.main__header {
+  background-color: var(--main_promo_background);
+  color: #fff;
+  justify-content: space-between;
+}
+
+.main__nav-tab {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+@media screen and (max-width: 767px) {
+  .main__nav-tab {
+    gap: 14px;
+  }
+}
