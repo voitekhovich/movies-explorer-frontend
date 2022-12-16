@@ -1,0 +1,24 @@
+.elements {
+  list-style: none;
+  margin: 0;
+  padding: 70px 70px 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 37px 24px;
+  overflow: hidden;
+}
+
+.more {
+  margin: 50px auto 80px;
+  display: flex;
+  justify-content: center;
+}
+
+.more__button {
+  background-color: #fff;
+  border: 1px solid #e8e8e8;
+  color: #000;
+  width: 320px;
+  height: 36px;
+  line-height: 15px;
+}
