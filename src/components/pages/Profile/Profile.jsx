@@ -1,8 +1,27 @@
-import React from 'react';
+import './Profile.css';
 
-function Profile() {
+import React from 'react';
+import Header from '../../Header/Header';
+
+function Profile(props) {
   return (
-    <div>PROFILE</div>
+    <React.Fragment>
+      <Header />
+      <main className='profile'>
+        
+        <h2 className='profile__title'>Привет, Александр!</h2>
+        <form className='profile__form'>
+          <label className='profile__label'>Имя
+            <input className='profile__input' type="text" defaultValue="Александр" />
+          </label>
+          <label className='profile__label'>E-mail
+            <input className='profile__input' type="email" defaultValue="pochta@yandex.ru"/>
+          </label>
+          <button className='profile__submit hover'>Редактировать</button>
+        </form>
+        <button className='profile__submit profile__exit hover'>Выйти из аккаунта</button>
+      </main>
+    </React.Fragment>
   );
 }
 

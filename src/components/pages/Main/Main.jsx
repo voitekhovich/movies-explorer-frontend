@@ -7,9 +7,9 @@ import Promo from '../../Promo/Promo';
 import AboutProject from '../../AboutProject/AboutProject';
 import Techs from '../../Techs/Techs';
 import AboutMe from '../../AboutMe/AboutMe';
-import Footer from '../../Footer/Footer';
 import { Link } from 'react-router-dom';
 import Button from '../../Button/Button';
+import Footer from '../../Footer/Footer';
 
 function Main() {
   return (
@@ -20,12 +20,15 @@ function Main() {
           <li><Link to='/signin'><Button title='Войти' /></Link></li>
         </ul>
       </Header>
-      <Promo />
-      <AboutProject />
-      <Techs />
-      <AboutMe />
+      <main>
+        <Promo />
+        <AboutProject />
+        <Techs />
+        <AboutMe />
+      </main>
       <Footer />
     </React.Fragment>
+    
   );
 }
 

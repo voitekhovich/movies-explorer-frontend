@@ -1,7 +1,7 @@
 import './MoviesCard.css';
 
 import React from 'react';
-import Like from '../Like/Like';
+import Like from '../elements/Like/Like';
 
 function MoviesCard(props) {
 
@@ -12,16 +12,16 @@ function MoviesCard(props) {
   }
 
   return (
-    <li className="card">
+    <li className="movies-card">
       <img
         src={card.image.url}
         alt={card.nameRU}
-        className="card__image"
+        className="movies-card__image"
       />
-      <div className="card__info-box">
-        <h2 className="card__title text-nowrap">{card.nameRU}</h2>
+      <div className="movies-card__info-box">
+        <h2 className="movies-card__title text-nowrap">{card.nameRU}</h2>
         <Like />
-        <p className='card__duration'>{moment(card.duration)}</p>
+        <p className='movies-card__duration'>{moment(card.duration)}</p>
       </div>
     </li>
   );

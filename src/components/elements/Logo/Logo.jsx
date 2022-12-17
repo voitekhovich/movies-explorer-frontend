@@ -2,10 +2,11 @@ import './Logo.css';
 
 import React from 'react';
 import cn from 'classnames';
+import { Link } from 'react-router-dom';
 
 function Logo({ className }) {
   return (
-    <div className={cn('logo', className)}></div>
+    <Link to="/" className={cn('logo', className)}></Link>
   );
 }
 

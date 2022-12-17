@@ -6,11 +6,11 @@
   min-width: 30px;
   height: 30px;
 
-  background-image: url(../../images/like.svg);
+  background-image: url(../../../images/like.svg);
   background-position: center;
   background-repeat: no-repeat;
 }
 
 .like_active {
-  background-image: url(../../images/like_active.svg);
+  background-image: url(../../../images/like_active.svg);
 }

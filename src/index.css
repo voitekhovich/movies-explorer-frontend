@@ -42,6 +42,11 @@ html, body {
   line-height: 16px;
 }
 
+.hover:hover {
+  cursor: pointer;
+  opacity: .7;
+}
+
 .text-nowrap {
   text-overflow: ellipsis;
   white-space: nowrap;
