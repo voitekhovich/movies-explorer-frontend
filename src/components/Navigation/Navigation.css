@@ -16,3 +16,24 @@
   font-size: 13px;
   line-height: 18px;
 }
+
+@media screen and (max-width: 1279px) {
+  .navigation {
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
+  }
+
+  .navigation__link {
+    font-size: 18px;
+    line-height: 22px;
+  }
+
+  .navigation__link_active {
+    display: inline-block;
+    font-size: 18px;
+    line-height: 22px;
+    box-shadow: 0 4px #fff, 0 6px #000;
+  }
+
+}

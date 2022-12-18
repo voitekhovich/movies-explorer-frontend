@@ -3,9 +3,10 @@ import './Navigation.css';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
-function Navigation() {
+function Navigation({ children }) {
   return (
     <nav className='navigation'>
+      { children }
       <NavLink
         to="/movies"
         className="navigation__link link-hover"

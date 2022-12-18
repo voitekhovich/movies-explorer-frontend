@@ -1,0 +1,36 @@
+.burger-navigation {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  min-width: 100vw;
+  min-height: 100vh;
+  background-color: rgba(0, 0, 0, .3);
+}
+
+.burger-navigation__panel {
+  width: 520px;
+  background-color: #fff;
+  height: 100vh;
+  position: absolute;
+  right: 0;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.burger-navigation__box {
+  margin: 0 auto;
+  padding: 159px 0 92px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+}
+
+.burger-navigation__profile {
+  margin-top: auto;
+  justify-self: flex-end;
+}

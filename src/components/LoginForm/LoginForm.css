@@ -1,11 +1,21 @@
-.heading {
+.login-form {
+  box-sizing: border-box;
+  margin: 0 auto;
+  padding: 70px 0;
+  width: 396px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.login-form__heading {
   margin: 40px 0 0;
   font-weight: 500;
   font-size: 24px;
   line-height: 29px;
 }
 
-.login-form {
+.login-form__form {
   margin: 40px 0 0;
   box-sizing: border-box;
   height: 100%;
@@ -30,6 +40,9 @@
 
   border: none;
   background-color: #3456f3;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
   color: #fff;
   border-radius: 3px;
   padding: 13px 0 15px;
@@ -53,20 +66,29 @@
   .login-form {
     height: auto;
   }
-  
-  .login-form__button {
-    margin-top: 69px;
+
+  .login-form__form {
+    min-height: 380px;
   }
 }
 
 @media screen and (max-width: 767px) {
-  .heading {
+  .login-form {
+    width: 260px;
+    height: 100vh;
+    padding-top: 56px;
+    padding-bottom: 30px;
+    align-items: center;
+  }
+
+  .login-form__heading {
     margin-top: 50px;
   }
   
-  .login-form {
+  .login-form__form {
     margin-top: 80px;
     height: 100%;
+    width: 100%;
   }
 
   .login-form__button {
@@ -79,4 +101,17 @@
     font-size: 12px;
     line-height: 15px;
   }
+
+  .login-form__button {
+    font-size: 12px;
+    line-height: 15px;
+    padding-top: 15px;
+  }
+
+  .register__subtitle {
+    margin-top: 14px;
+    font-size: 12px;
+    line-height: 15px;
+  }
+
 }

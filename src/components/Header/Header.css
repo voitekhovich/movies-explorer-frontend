@@ -2,6 +2,7 @@
   padding: 0 70px;
   display: flex;
   align-items: center;
+  max-width: 100%;
 }
 
 .header__logo {
@@ -20,6 +21,7 @@
   .header {
     padding-right: 30px;
     padding-left: 30px;
+    justify-content: space-between;
   }
   .header__nav-container {
     display: none;

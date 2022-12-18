@@ -6,6 +6,7 @@ import SearchForm from '../../SearchForm/SearchForm';
 import MoviesCardList from '../../MoviesCardList/MoviesCardList';
 import Footer from '../../Footer/Footer';
 import { data } from '../../../utils/data.js'
+import BurgerNavigation from '../../BurgerNavigation/BurgerNavigation';
 
 function Movies() {
   return (
@@ -17,8 +18,9 @@ function Movies() {
           <MoviesCardList data={ data }/>
           <button className='movies__more button-hover'>Ещё</button>
         </section>
-    </main>
-    <Footer />
+      </main>
+      <Footer />
+      <BurgerNavigation />
     </React.Fragment>
   );
 }
