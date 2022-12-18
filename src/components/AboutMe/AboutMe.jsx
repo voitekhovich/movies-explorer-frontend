@@ -6,7 +6,7 @@ import BlockTitle from '../BlockTitle/BlockTitle';
 
 function AboutMe() {
   return (
-    <div className='about-me'>
+    <section className='about-me'>
       <BlockTitle title='Студент' />
       <div className='about-me__block'>
         <img className='about-me__photo' src={photo} alt='Фото профиля'/>
@@ -35,7 +35,7 @@ function AboutMe() {
             href='https://github.com/voitekhovich/react-mesto-api-full'>Одностраничное приложение</a>
         </li>
       </ul>
-    </div>
+    </section>
   );
 }
 

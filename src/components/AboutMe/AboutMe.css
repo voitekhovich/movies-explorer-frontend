@@ -6,10 +6,8 @@
   margin-top: 66px;
   display: grid;
   grid-template-rows: repeat(3, auto) 1fr ;
-  grid-template-columns: auto auto;
+  grid-template-columns: 600px auto;
   justify-content: space-between;
-  justify-items: start;
-  align-items: start;
 }
 
 .about-me__photo {
@@ -38,19 +36,19 @@
 
 .about-me__description {
   margin: 26px 0 0;
-  max-width: 600px;
   font-weight: 400;
   font-size: 14px;
   line-height: 22px;
 }
 
 .about-me__url {
+  justify-self: left;
   text-decoration: none;
-  color: var(--color_black);
   align-self: end;
   font-weight: 500;
   font-size: 14px;
   line-height: 17px;
+  color: #000;
 }
 
 .about-me__portfolio {
@@ -69,12 +67,12 @@
 }
 
 .about-me__portfolio-item {
-  padding: 19px 0 20px;
+  padding: 20px 0 19px;
   font-weight: 400;
   font-size: 30px;
   line-height: 50px;
   letter-spacing: -0.04em;
-  border-bottom: #e8e8e8 1px solid;
+  border-bottom: 1px solid #e8e8e8 ;
 }
 
 .about-me__portfolio-item:first-child {
@@ -103,28 +101,37 @@
   .about-me {
     padding: 90px 50px;
   }
+
+  .about-me__block {
+    grid-template-columns: 364px auto;
+  }
+
   .about-me__photo {
     width: 255px;
     height: 307px;
   }
+
   .about-me__name {
     font-size: 40px;
     line-height: 40px;
   }
+
   .about-me__position {
     margin-top: 16px;
     font-size: 12px;
     line-height: 18px;
   }
+
   .about-me__description {
     margin-top: 20px;
-    max-width: 364px;
     font-size: 12px;
     line-height: 18px;
   }
+
   .about-me__portfolio {
     margin-top: 90px;
   }
+
   .about-me__portfolio-item {
     padding-top: 20px;
     padding-bottom: 19px;
@@ -136,11 +143,13 @@
   .about-me {
     padding: 70px 14px;
   }
+
   .about-me__block {
     margin-top: 60px;
     grid-template-rows: repeat(4, auto) ;
     grid-template-columns: 1fr;
   }
+
   .about-me__photo {
     width: 292px;
     height: 352px;
@@ -149,31 +158,37 @@
     grid-row-end: 2;
     margin: 0 auto;
   }
+
   .about-me__name {
     margin-top: 40px;
     font-size: 30px;
     line-height: 36px;
   }
+
   .about-me__position {
     margin-top: 20px;
     font-size: 11px;
     line-height: 16px;
   }
+
   .about-me__description {
-    max-width: 292px;
     font-size: 11px;
     line-height: 16px;
   }
+
   .about-me__url {
     margin-top: 40px;
   }
+
   .about-me__portfolio {
     margin-top: 70px;
     font-size: 14px;
   }
+
   .about-me__portfolio-list {
     margin-top: 40px;
   }
+
   .about-me__portfolio-item {
     font-size: 18px;
     line-height: 28px;

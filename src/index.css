@@ -5,7 +5,6 @@
   --basic: #2BE080;
   --main_promo_text: #fff;
   --main_promo_background: #073042;
-  /* --color_focus: rgb(38, 78, 255, .7); */
 }
 
 html, body {
@@ -21,18 +20,15 @@ html, body {
   box-sizing: border-box;
 }
 
-* {
+/* * {
   outline: 1px solid rgba(255, 0, 0, .05);
-}
+} */
 
 .page {
   max-width: 1280px;
   min-width: 320px;
   margin: 0 auto;
   height: 100vh;
-  /* box-sizing: border-box; */
-  /* display: flex; */
-  /* flex-direction: column; */
 }
 
 .link {

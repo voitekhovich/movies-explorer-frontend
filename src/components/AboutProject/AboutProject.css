@@ -3,7 +3,7 @@
 }
 
 .about-project__table {
-  margin-top: 70px;
+  margin: 70px 0 0;
   padding: 0;
   list-style: none;
   display: flex;
@@ -12,13 +12,9 @@
   justify-content: space-between;
 }
 
-.table__sell {
-  max-width: 550px;
-}
-
 .table__title {
+  display: inline-block;
   margin: 0;
-  max-width: inherit;
   font-weight: 400;
   font-size: 20px;
   line-height: 24px;
@@ -26,8 +22,8 @@
 }
 
 .table__text {
+  display: inline-block;
   margin: 26px 0 0;
-  max-width: inherit;
   font-weight: 400;
   font-size: 14px;
   line-height: 20px;
@@ -74,10 +70,6 @@
     gap: 30px;
   }
 
-  .table__sell {
-    min-width: 319px;
-  }
-
   .table__text {
     margin-top: 22px;
     font-size: 12px;
@@ -98,27 +90,29 @@
   .about-project {
     padding: 70px 18px;
   }
+
   .about-project__table {
     margin-top: 60px;
     flex-direction: column;
     gap: 56px;
   }
-  .table__sell {
-    max-width: 284px;
-  }
+
   .table__title {
     font-size: 18px;
     line-height: 22px;
   }
+
   .table__text {
     margin-top: 16px;
     font-size: 11px;
     line-height: 16px;
   }
+
   .about-project__timeline {
     margin-top: 60px;
     grid-template-columns: 1fr 2fr;
   }
+
   .timeline__text {
     font-size: 11px;
     line-height: 13px;

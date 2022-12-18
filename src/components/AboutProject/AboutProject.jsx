@@ -5,7 +5,7 @@ import BlockTitle from '../BlockTitle/BlockTitle';
 
 function AboutProject() {
   return (
-    <div className='about-project'>
+    <section className='about-project'>
       <BlockTitle title='О проекте' />
       <ul className='about-project__table'>
         <li className='table__sell'>
@@ -23,7 +23,7 @@ function AboutProject() {
         <p className='timeline__text timeline__description'>Back-end</p>
         <p className='timeline__text timeline__description'>Front-end</p>
       </div>
-    </div>
+    </section>
   );
 }
 
