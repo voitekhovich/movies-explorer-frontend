@@ -5,7 +5,7 @@ import MoviesCard from '../MoviesCard/MoviesCard';
 function MoviesCardList(props) {
 
   return (
-    <ul className="movies__cards">
+    <ul className="movies-cards">
       {props.data.map((card) => (
         <MoviesCard
           key={card.id}

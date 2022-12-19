@@ -1,4 +1,4 @@
-.movies__cards {
+.movies-cards {
   list-style: none;
   margin: 0 auto;
   padding: 0;
@@ -9,14 +9,14 @@
 }
 
 @media screen and (max-width: 1279px) {
-  .movies__cards {
+  .movies-cards {
     grid-template-columns: repeat(auto-fit, 339px);
     gap: 30px;
   }
 }
 
 @media screen and (max-width: 767px) {
-  .movies__cards {
+  .movies-cards {
     grid-template-columns: repeat(auto-fit, 300px);
     gap: 14px;
   }

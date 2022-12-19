@@ -12,7 +12,7 @@ import Footer from '../../Footer/Footer';
 
 function Main() {
   return (
-    <React.Fragment>
+    <div className='main'>
       <Header className={'main__header'}>
         <ul className={'main__nav-tab'}>
           <li><Link to='/signup' className='main__link link-hover'>Регистрация</Link></li>
@@ -26,7 +26,7 @@ function Main() {
         <AboutMe />
       </main>
       <Footer />
-    </React.Fragment>
+    </div>
     
   );
 }
