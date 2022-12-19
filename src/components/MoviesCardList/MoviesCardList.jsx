@@ -6,36 +6,18 @@ import Button from '../Button/Button'
 
 function MoviesCardList(props) {
 
-  // const {
-  //   onEditProfile,
-  //   onAddPlace,
-  //   onEditAvatar,
-  //   onCardClick,
-  //   cards,
-  //   onCardLike,
-  //   onCardDelete,
-  // } = props;
-  // const currentUser = React.useContext(CurrentUserContext);
-
   return (
-    <main>
-      <section aria-label="Блок с карточками">
-        <ul className="elements">
-          {data.map((card) => (
-            <MoviesCard
-              key={card.id}
-              card={card}
-              // onCardClick={onCardClick}
-              // onCardLike={onCardLike}
-              // onCardDelete={onCardDelete}
-            />
-          ))}
-        </ul>
-        <div className='more'>
-          <Button title='Ещё' className='more__button' />
-        </div>
-      </section>
-    </main>
+    <section aria-label="Блок с фильмами">
+      <ul className="movies">
+        {data.map((card) => (
+          <MoviesCard
+            key={card.id}
+            card={card}
+          />
+        ))}
+      </ul>
+      <Button className='movies__more' title='Ещё'/>
+    </section>
   );
 }
 
