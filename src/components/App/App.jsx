@@ -8,6 +8,7 @@ import SavedMovies from "../pages/SavedMovies/SavedMovies";
 import Profile from "../pages/Profile/Profile";
 import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
+import PageNotFound from '../pages/PageNotFound/PageNotFound';
 
 export default function App() {
 
@@ -15,6 +16,9 @@ export default function App() {
     <React.Fragment>
 
       <Switch>
+      <Route exact path="/">
+          <Main />
+        </Route>
         <Route path="/signin">
           <Login />
         </Route>
@@ -30,8 +34,8 @@ export default function App() {
         <Route path="/profile">
           <Profile />
         </Route>
-        <Route path="/">
-          <Main />
+        <Route path="*">
+          <PageNotFound />
         </Route>
       </Switch>
       
