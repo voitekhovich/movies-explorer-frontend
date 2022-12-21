@@ -1,15 +1,17 @@
+.heading {
+  margin: 40px 0 0;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 29px;
+}
+
 .login-form {
+  margin: 40px 0 0;
+  box-sizing: border-box;
   height: 100%;
   display: flex;
   flex-direction: column;
   gap: 20px;
-}
-
-.login-form__title {
-  margin: 40px 0;
-  font-weight: 500;
-  font-size: 24px;
-  line-height: 29px;
 }
 
 .login-form__error {
@@ -31,7 +33,6 @@
   color: #fff;
   border-radius: 3px;
   padding: 13px 0 15px;
-  cursor: pointer;
 }
 
 .register__subtitle {
@@ -46,4 +47,36 @@
 .register__subtitle-span {
   text-decoration: none;
   color: #3456f3;
+}
+
+@media screen and (max-width: 1279px) {
+  .login-form {
+    height: auto;
+  }
+  
+  .login-form__button {
+    margin-top: 69px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .heading {
+    margin-top: 50px;
+  }
+  
+  .login-form {
+    margin-top: 80px;
+    height: 100%;
+  }
+
+  .login-form__button {
+    margin-top: auto;
+    padding-top: 15px;
+  }
+  
+  .register__subtitle {
+    margin-top: 14px;
+    font-size: 12px;
+    line-height: 15px;
+  }
 }

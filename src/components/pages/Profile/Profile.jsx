@@ -17,9 +17,9 @@ function Profile(props) {
           <label className='profile__label'>E-mail
             <input className='profile__input' type="email" defaultValue="pochta@yandex.ru"/>
           </label>
-          <button className='profile__submit hover'>Редактировать</button>
+          <button className='profile__button profile__submit link-hover'>Редактировать</button>
         </form>
-        <button className='profile__submit profile__exit hover'>Выйти из аккаунта</button>
+        <button className='profile__button profile__exit link-hover'>Выйти из аккаунта</button>
       </main>
     </React.Fragment>
   );
