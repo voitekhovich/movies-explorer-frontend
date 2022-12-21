@@ -10,12 +10,12 @@ function Footer() {
         <p className='footer__copyright'>&copy; 2022</p>
         <ul className='footer__links'>
           <li>
-            <a className='footer__url'href='https://practicum.yandex.ru/' target="_blank" rel="noreferrer">
+            <a className='footer__url link-hover' href='https://practicum.yandex.ru/' target="_blank" rel="noreferrer">
               Яндекс.Практикум
             </a>
           </li>
           <li>
-            <a className='footer__url' href='https://github.com/' target="_blank" rel="noreferrer">
+            <a className='footer__url link-hover' href='https://github.com/' target="_blank" rel="noreferrer">
               Github
             </a>
           </li>

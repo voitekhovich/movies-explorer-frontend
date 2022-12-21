@@ -1,8 +1,9 @@
 import './FilterCheckbox.css';
 
 import React from 'react';
+import cn from 'classnames';
 
-function FilterCheckbox() {
+function FilterCheckbox({className}) {
   
   const [check, setCheck] = React.useState(true);
 
@@ -11,7 +12,7 @@ function FilterCheckbox() {
   }
 
   return (
-    <div className='filter-checkbox'>
+    <div className={cn('filter-checkbox', className)}>
       <button className={check? 'checkbox checkbox_checked' : 'checkbox'}
         role='switch' aria-checked='false' onClick={isChecked}>
       </button>

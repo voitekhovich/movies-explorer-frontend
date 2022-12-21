@@ -8,11 +8,11 @@ function Navigation() {
     <nav className='navigation'>
       <NavLink
         to="/movies"
-        className="navigation__link"
+        className="navigation__link link-hover"
         activeClassName="navigation__link_active">Фильмы</NavLink>
       <NavLink
         to="/saved-movies"
-        className="navigation__link"
+        className="navigation__link link-hover"
         activeClassName="navigation__link_active">Сохранённые фильмы</NavLink>
     </nav>
   );

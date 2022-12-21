@@ -39,7 +39,12 @@ html, body {
   line-height: 16px;
 }
 
-.hover:hover {
+.button-hover:hover {
+  cursor: pointer;
+  opacity: .8;
+}
+
+.link-hover:hover {
   cursor: pointer;
   opacity: .7;
 }

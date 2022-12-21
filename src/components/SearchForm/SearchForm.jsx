@@ -9,9 +9,9 @@ function SearchForm() {
       <div className='search-form__input-box'>
         <div className='search-form__icon'></div>
         <input className='search-form__input' type="text" placeholder='Фильм'></input>
-        <button className='search-form__button'></button>
+        <button className='search-form__button button-hover'></button>
       </div>
-      <FilterCheckbox />
+      <FilterCheckbox className='search-form__check-box'/>
     </section>
   );
 }

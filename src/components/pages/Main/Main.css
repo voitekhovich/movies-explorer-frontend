@@ -19,20 +19,11 @@
   line-height: 16px;
 }
 
-.main__link:hover {
-  opacity: .7;
-  cursor: pointer;
-}
-
 .main__link-button {
   color: #000;
   background-color: #2be080;
   padding: 8px 20px;
   border-radius: 3px;
-}
-
-.main__link-button {
-  opacity: .8;
 }
 
 @media screen and (max-width: 1279px) {

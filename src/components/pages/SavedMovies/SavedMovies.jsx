@@ -5,6 +5,7 @@ import Header from '../../Header/Header';
 import SearchForm from '../../SearchForm/SearchForm';
 import MoviesCardList from '../../MoviesCardList/MoviesCardList';
 import Footer from '../../Footer/Footer';
+import { data } from '../../../utils/data.js'
 
 function SavedMovies() {
   return (
@@ -12,7 +13,9 @@ function SavedMovies() {
       <Header />
       <main>
         <SearchForm />
-        <MoviesCardList />
+        <section className="movies">
+          <MoviesCardList data={ data.slice(0, 3) }/>
+        </section>
       </main>
       <Footer />
     </React.Fragment>

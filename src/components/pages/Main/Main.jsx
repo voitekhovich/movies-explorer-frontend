@@ -15,8 +15,8 @@ function Main() {
     <React.Fragment>
       <Header className={'main__header'}>
         <ul className={'main__nav-tab'}>
-          <li><Link to='/signup' className='main__link'>Регистрация</Link></li>
-          <li><Link to='/signin' className='main__link main__link-button'>Войти</Link></li>
+          <li><Link to='/signup' className='main__link link-hover'>Регистрация</Link></li>
+          <li><Link to='/signin' className='main__link main__link-button button-hover'>Войти</Link></li>
         </ul>
       </Header>
       <main>

@@ -42,11 +42,6 @@
   align-self: flex-start;
 }
 
-.promo__link-button:hover {
-  opacity: .8;
-  cursor: pointer;
-}
-
 .promo__image {
   background-image: url(../../images/promo_logo.png);
   background-size: cover;
