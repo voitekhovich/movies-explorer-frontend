@@ -31,14 +31,6 @@ html, body {
   min-height: 100vh;
 }
 
-.link {
-  text-decoration: none;
-  color: var(--color_white);
-  font-weight: 500;
-  font-size: 12px;
-  line-height: 16px;
-}
-
 .button-hover:hover {
   cursor: pointer;
   opacity: .8;
@@ -53,10 +45,4 @@ html, body {
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
-}
-
-@media screen and (max-width: 767px) {
-  .link {
-    font-size: 10px;
-  }
 }
