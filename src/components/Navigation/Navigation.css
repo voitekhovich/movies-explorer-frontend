@@ -25,6 +25,7 @@
   }
 
   .navigation__link {
+    font-weight: 500;
     font-size: 18px;
     line-height: 22px;
   }
@@ -36,4 +37,14 @@
     box-shadow: 0 0 0 4px #fff, 0 6px #000;
   }
 
+}
+
+@media screen and (max-width: 1279px) {
+  .navigation {
+    gap: 24px;
+  }
+
+  .navigation__link_active {
+    box-shadow: 0 0 0 7px #fff, 0 6px #000;
+  }
 }

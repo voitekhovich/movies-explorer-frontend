@@ -7,9 +7,9 @@ import SearchForm from '../../SearchForm/SearchForm';
 
 function SavedMovies() {
   return (
-    <main>
+    <main className='main'>
       <SearchForm />
-      <section className="movies">
+      <section className="saved-movies">
         <MoviesCardList data={ data.slice(0, 3) }/>
       </section>
     </main>  

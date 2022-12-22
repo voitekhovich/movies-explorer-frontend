@@ -12,6 +12,10 @@
   justify-content: space-between;
 }
 
+.table__sell {
+  width: 100%
+}
+
 .table__title {
   display: inline-block;
   margin: 0;
@@ -110,11 +114,20 @@
 
   .about-project__timeline {
     margin-top: 60px;
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: 1.1fr 2fr;
   }
 
   .timeline__text {
     font-size: 11px;
     line-height: 13px;
+  }
+
+  .timeline__week {
+    padding-top: 11px;
+    padding-bottom: 11px;
+  }
+
+  .timeline__description {
+    margin-top: 10px;
   }
 }

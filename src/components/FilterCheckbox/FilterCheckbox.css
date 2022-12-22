@@ -2,7 +2,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  /* margin-top: 29px; */
 }
 
 .filter-checkbox__title {
@@ -64,4 +63,11 @@
 .checkbox_checked::after {
   background-color: #fff;
   transform: translateX(20px);
+}
+
+@media screen and (max-width: 767px) {
+  .filter-checkbox__title {
+    margin-left: 13px;
+    font-size: 11px;
+  }
 }

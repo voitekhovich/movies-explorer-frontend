@@ -92,9 +92,13 @@
 }
 
 .about-me__portfolio-url::after {
-  content: url(../../images/link.svg);
+  content: '↗';
   position: absolute;
-  right: 0;
+  right: 0px;
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 60px;
+  letter-spacing: -0.04em;
 }
 
 @media screen and (max-width: 1279px) {
@@ -193,4 +197,10 @@
     font-size: 18px;
     line-height: 28px;
   }
+
+  .about-me__portfolio-url::after {
+    font-size: 18px;
+    line-height: 28px;
+  }
+
 }

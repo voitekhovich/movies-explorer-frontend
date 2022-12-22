@@ -1,5 +1,5 @@
-.movies {
-  padding: 70px 70px 107px;
+.saved-movies {
+  padding: 70px 70px 170px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -7,15 +7,14 @@
 
 
 @media screen and (max-width: 1279px) {
-  .movies {
+  .saved-movies {
     padding-right: 30px;
     padding-left: 30px;
-    padding-bottom: 170px;
   }
 }
 
 @media screen and (max-width: 767px) {
-  .movies {
+  .saved-movies {
     padding: 40px 10px 166px;
   }
 }

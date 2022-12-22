@@ -5,6 +5,7 @@
 .search-form__input-box {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   border-bottom: 1px solid #e8e8e8;
   padding-bottom: 9px;
 }
@@ -29,7 +30,7 @@
   font-size: 28px;
   line-height: 34px;
   text-align: center;
-  margin: 0 46px;
+  margin: 0 46px 0 34px;
 }
 
 .search-form__input::placeholder{

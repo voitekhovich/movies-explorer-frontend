@@ -30,10 +30,22 @@
   .main__nav-tab {
     gap: 26px;
   }
+  
 }
 
 @media screen and (max-width: 767px) {
   .main__nav-tab {
     gap: 14px;
+  }
+
+  .main__link {
+    font-size: 10px;
+    line-height: 16px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .main__link-button {
+    padding: 5px 12px;
   }
 }

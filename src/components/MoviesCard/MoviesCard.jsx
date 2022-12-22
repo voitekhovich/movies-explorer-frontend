@@ -19,8 +19,10 @@ function MoviesCard(props) {
         className="movies-card__image"
       />
       <div className="movies-card__info-box">
-        <h2 className="movies-card__title text-nowrap">{card.nameRU}</h2>
-        <Like />
+        <div className="movies-card__title-box">
+          <h2 className="movies-card__title text-nowrap">{card.nameRU}</h2>
+          <Like />
+        </div>
         <p className='movies-card__duration'>{moment(card.duration)}</p>
       </div>
     </li>
