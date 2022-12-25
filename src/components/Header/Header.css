@@ -1,0 +1,36 @@
+.header {
+  padding: 0 70px;
+  display: flex;
+  align-items: center;
+  max-width: 100%;
+}
+
+.header__logo {
+  margin: 18px 0;
+}
+
+.header__nav-container {
+  margin: 0 0 0 44px;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@media screen and (max-width: 1279px) {
+  .header {
+    padding-right: 30px;
+    padding-left: 30px;
+    justify-content: space-between;
+  }
+  .header__nav-container {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .header {
+    padding-right: 14px;
+    padding-left: 14px;
+  }
+}

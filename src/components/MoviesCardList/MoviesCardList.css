@@ -1,0 +1,23 @@
+.movies-cards {
+  list-style: none;
+  margin: 0 auto;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 364px);
+  max-width: 100%;
+  gap: 37px 24px;
+}
+
+@media screen and (max-width: 1279px) {
+  .movies-cards {
+    grid-template-columns: repeat(auto-fit, 339px);
+    gap: 30px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .movies-cards {
+    grid-template-columns: repeat(auto-fit, 300px);
+    gap: 14px;
+  }
+}

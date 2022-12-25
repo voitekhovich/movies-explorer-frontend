@@ -1,0 +1,48 @@
+@import url(./vendor/normalize.css);
+@import url(./vendor/fonts/Inter/inter.css);
+
+:root {
+  --basic: #2BE080;
+  --main_promo_text: #fff;
+  --main_promo_background: #073042;
+}
+
+html, body {
+  height: 100%;
+}
+
+.body {
+  background-color: var(--color_white);
+  font-family: Inter, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: var(--color_black);
+  box-sizing: border-box;
+}
+
+/* * {
+  outline: 1px solid rgba(255, 0, 0, .05);
+} */
+
+.page {
+  max-width: 1280px;
+  min-width: 320px;
+  margin: 0 auto;
+  min-height: 100vh;
+}
+
+.button-hover:hover {
+  cursor: pointer;
+  opacity: .8;
+}
+
+.link-hover:hover {
+  cursor: pointer;
+  opacity: .7;
+}
+
+.text-nowrap {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
