@@ -14,7 +14,7 @@ function FilterCheckbox({className}) {
   return (
     <div className={cn('filter-checkbox', className)}>
       <button className={check? 'checkbox checkbox_checked' : 'checkbox'}
-        role='switch' aria-checked='false' onClick={isChecked}>
+        type='button' role='switch' aria-checked='false' onClick={isChecked}>
       </button>
       <p className='filter-checkbox__title'>Короткометражки</p>
     </div>
