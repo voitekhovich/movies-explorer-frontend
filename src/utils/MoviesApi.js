@@ -1,7 +1,4 @@
-const REACT_APP_BASE_URL = 'https://api.nomoreparties.co/beatfilm-movies'
-const headers = {
-  "Content-Type": "application/json",
-};
+import { BEATFILM_API_URL, headers } from './constants';
 
 class MoviesApi {
   constructor({ baseUrl, headers }) {
@@ -24,10 +21,10 @@ class MoviesApi {
   }
 
   getAllData() {
-    return this._request("", {
+    return this._request("/beatfilm-movies", {
       headers: this._headers,
     });
   }
 }
 
-export const moviesApi = new MoviesApi({ baseUrl: REACT_APP_BASE_URL, headers });
+export const moviesApi = new MoviesApi({ baseUrl: BEATFILM_API_URL, headers });

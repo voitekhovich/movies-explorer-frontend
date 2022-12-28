@@ -2,6 +2,7 @@ import './MoviesCard.css';
 
 import React from 'react';
 import Like from '../elements/Like/Like';
+import { BEATFILM_API_URL } from '../../utils/constants';
 
 function MoviesCard(props) {
 
@@ -14,7 +15,7 @@ function MoviesCard(props) {
   return (
     <li className="movies-card">
       <img
-        src={card.image.url}
+        src={`${ BEATFILM_API_URL }${ card.image.url }`}
         alt={card.nameRU}
         className="movies-card__image"
       />
