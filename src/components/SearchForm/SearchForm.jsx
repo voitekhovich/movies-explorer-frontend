@@ -6,12 +6,14 @@ import { useForm } from "../../hooks/useForm";
 
 function SearchForm(props) {
 
-  const { submitClick, filterCheck, isFilterCheck } = props;
-  const {values, handleChange } = useForm({});
+  const { submitClick, filter, setFilter } = props;
+  const {values, handleChange } = useForm({'search': ""});
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    submitClick(values['search']);
+    if (values['search'] === '') return console.log('Нужно ввести ключевое слово');
+    setFilter({...filter, searchQuery: values['search']})
+    submitClick();
   }
 
   return (
@@ -27,9 +29,15 @@ function SearchForm(props) {
           value={values['search'] || ""}
           onChange={handleChange}
         />
-        <button className='search-form__button button-hover' onClick={handleSubmit}></button>
+        <button
+          className='search-form__button button-hover'
+          onClick={handleSubmit}>
+        </button>
       </form>
-      <FilterCheckbox className='search-form__check-box' filterCheck={filterCheck} isFilterCheck={ isFilterCheck }/>
+      <FilterCheckbox
+        className='search-form__check-box'
+        filter={ filter }
+        setFilter={ setFilter }/>
     </div>
   );
 }

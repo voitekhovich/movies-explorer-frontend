@@ -1,69 +1,80 @@
 import './Movies.css';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import MoviesCardList from '../../MoviesCardList/MoviesCardList';
 import SearchForm from '../../SearchForm/SearchForm';
 import { moviesApi } from '../../../utils/MoviesApi';
 import { DATA_NOT_FOUND, GET_DATA_ERROR } from '../../../utils/constants';
 import Preloader from '../../Preloader/Preloader';
+import { useMovies } from '../../../hooks/useMovies';
 
 function Movies() {
   
-  const [ allMovies, setAllMovies ] = useState([]);
-  const [ filteredMovies, setFilteredMovies ] = useState([]);
-
+  const [ movies, setMovies ] = useState([]);
   const [ isLoading, setIsLoading ] = useState(false);
   const [ infoMessage, setInfoMessage ] = useState(DATA_NOT_FOUND);
-  const [ isFilterCheck, setIsFilterCheck ] = useState(false);
-  
-  // const [ lastElement, setLastElement ] = useState(0);
+  const [ filter, setFilter ] = useState({shortFilms: false, searchQuery: ''});
 
-  const filterCheckHandle = () => {
-    setIsFilterCheck(!isFilterCheck);
+  const filteredAndSearchedMovies = useMovies(movies, filter.shortFilms, filter.searchQuery);
+
+  const searchHandle = () => {
+    console.log(movies.length);
+    localStorage.setItem('shortFilms', filter.shortFilms);
+    localStorage.setItem('searchQuery', filter.searchQuery);
+    if (!movies.length) loadData();
   }
 
-  const getFilteredMovies = (text, data) => {
-    setFilteredMovies(data.filter( item => item.nameRU.toLowerCase().includes(text.toLowerCase())));
-  }
-
-  async function getAllMovies() {
+  const loadData = () => {
+    console.log('loadData');
     setIsLoading(true)
     setInfoMessage(DATA_NOT_FOUND)
-
-    moviesApi.getAllData()
-    .then((data) => {
-      setAllMovies(data);
-      console.log('data loading');
-    })
-    .catch((err) => {
-      console.log(err);
-      setInfoMessage(GET_DATA_ERROR);
-    })
-    .finally(() => {
-      setIsLoading(false);
-    })
-  }
-
-  // ПРОБЛЕМА С СИНХРОННОСТЬЮ
-
-  const searchHandle = (searchText) => {
-
-    if (allMovies.length === 0) getAllMovies()
-    .then(() => {
-      console.log('надеюсь я не здесь');
-      setFilteredMovies(getFilteredMovies(searchText, allMovies));
-      console.log(filteredMovies);
-    })
     
+    moviesApi.getAllData()
+      .then((data) => {
+        setMovies(data);
+        return data;
+      })
+      .catch((err) => {
+        console.log(err);
+        setInfoMessage(GET_DATA_ERROR);
+      })
+      .finally(() => {
+        setIsLoading(false);
+        // console.log('finally');
+      })
   }
+
+  useEffect(() => {
+    console.log('load page');
+    setFilter({
+      shortFilms: !!!localStorage.getItem('shortFilms'),
+      searchQuery: localStorage.getItem('searchQuery'),
+    })
+
+    return () => {
+      console.log('save page');
+      localStorage.setItem('shortFilms', filter.shortFilms);
+      console.log(filter.shortFilms);
+      localStorage.setItem('searchQuery', filter.searchQuery);
+      console.log(filter.searchQuery);
+    }
+    
+  }, []);
 
   return (
     <main>
-      <SearchForm submitClick={ searchHandle } filterCheck={ filterCheckHandle } isFilterCheck={ isFilterCheck } />
+      <SearchForm
+        submitClick={ searchHandle }
+        filter={filter}
+        setFilter={setFilter}/>
+      
       <section className="movies">
 
-        { isLoading ? <Preloader /> :
-            filteredMovies.length > 0 ? <MoviesCardList data={ filteredMovies }/> : <p className='movies__info-message'>{ infoMessage }</p>
+        { isLoading
+            ? 
+              <Preloader />
+            : 
+              <MoviesCardList data={filteredAndSearchedMovies} infoMessage={infoMessage}/>
         }
         
         <button className='movies__more button-hover' type='button'>Ещё</button>

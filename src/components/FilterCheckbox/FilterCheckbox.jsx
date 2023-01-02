@@ -4,18 +4,18 @@ import React from 'react';
 import cn from 'classnames';
 
 function FilterCheckbox(props, {className}) {
-  const { filterCheck, isFilterCheck } = props
-
-  // const [check, setCheck] = React.useState(false);
+  
+  // const { filterCheck, isFilterCheck } = props
+  const { filter, setFilter } = props
 
   const isChecked = () => {
-    // setCheck(!check);
-    filterCheck();
+    // filterCheck();
+    setFilter({...filter, shortFilms: !filter.shortFilms});
   }
 
   return (
     <div className={cn('filter-checkbox', className)}>
-      <button className={isFilterCheck? 'checkbox checkbox_checked' : 'checkbox'}
+      <button className={filter.shortFilms? 'checkbox checkbox_checked' : 'checkbox'}
         type='button' role='switch' aria-checked='false' onClick={isChecked}>
       </button>
       <p className='filter-checkbox__title'>Короткометражки</p>
