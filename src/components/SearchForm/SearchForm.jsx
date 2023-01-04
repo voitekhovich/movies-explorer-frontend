@@ -1,13 +1,13 @@
 import './SearchForm.css';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 import { useForm } from "../../hooks/useForm";
 
 function SearchForm(props) {
 
   const { submitClick, filter, setFilter } = props;
-  const {values, handleChange } = useForm({'search': ""});
+  const {values, setValues, handleChange } = useForm({'search': ""});
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
@@ -15,6 +15,11 @@ function SearchForm(props) {
     setFilter({...filter, searchQuery: values['search']})
     submitClick();
   }
+
+  useEffect(() => {
+    if (filter.searchQuery !== '')
+      setValues({'search': filter.searchQuery})
+  }, [])
 
   return (
     <div className='search-form'>
@@ -26,7 +31,8 @@ function SearchForm(props) {
           name="search"
           type="text"
           placeholder='Фильм'
-          value={values['search'] || ""}
+          value={values['search'] || "" }
+          // value={filter.searchQuery}
           onChange={handleChange}
         />
         <button

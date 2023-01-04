@@ -10,7 +10,8 @@ function FilterCheckbox(props, {className}) {
 
   const isChecked = () => {
     // filterCheck();
-    setFilter({...filter, shortFilms: !filter.shortFilms});
+    // setFilter({...filter, shortFilms: !filter.shortFilms})
+    setFilter( filter => ({...filter, shortFilms: !filter.shortFilms}) );
   }
 
   return (
