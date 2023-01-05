@@ -49,6 +49,17 @@ function Movies() {
       })
   }
 
+  const updateSize = () => {
+    console.log(window.innerWidth)
+  }
+
+  useEffect(() => {
+    window.addEventListener('resize', () => setTimeout(updateSize, 500));
+    updateSize();
+    return () => {
+      window.removeEventListener('resize', () => setTimeout(updateSize, 500));
+    }
+  }, [])
 
   useEffect(() => {
     localStorage.setItem('movies', JSON.stringify(movies));
