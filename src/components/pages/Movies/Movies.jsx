@@ -9,7 +9,7 @@ import Preloader from '../../Preloader/Preloader';
 import { useMovies } from '../../../hooks/useMovies';
 
 function Movies() {
-  
+
   const [ movies, setMovies ] = useState((JSON.parse(localStorage.getItem('movies'))) || []);
   const [ isLoading, setIsLoading ] = useState(false);
   const [ infoMessage, setInfoMessage ] = useState(DATA_NOT_FOUND);
@@ -17,12 +17,20 @@ function Movies() {
 
   const filteredAndSearchedMovies = useMovies(movies, filter.shortFilms, filter.searchQuery);
 
+  const [ countItems, setCountItems ] = useState(4);
+  const [ items, setItems ] = useState([])
+  const [ isVisibBtn, setIsVisibBtn ] = useState(true);
+
   const searchHandle = () => {
     if (!movies.length) loadData();
+    setCountItems(4);
+  }
+
+  const addHandle = () => {
+    setCountItems( count => count +2)
   }
 
   const loadData = () => {
-    console.log('loadData');
     setIsLoading(true)
     setInfoMessage(DATA_NOT_FOUND)
     
@@ -41,15 +49,27 @@ function Movies() {
       })
   }
 
+
   useEffect(() => {
-    // console.log(movies);
     localStorage.setItem('movies', JSON.stringify(movies));
   }, [movies])
 
   useEffect(() => {
-    // console.log(filter);
     localStorage.setItem('filter', JSON.stringify(filter));
   }, [filter])
+
+  useEffect(() => {
+    if (countItems < filteredAndSearchedMovies.length)
+    {
+      setIsVisibBtn(true);
+    } else {
+      setIsVisibBtn(false);
+    };
+
+    setItems(filteredAndSearchedMovies.slice(0, countItems));
+    console.log(`ALL: ${filteredAndSearchedMovies.length} NOW: ${countItems} VISIB: ${isVisibBtn}`)
+    
+  }, [filteredAndSearchedMovies, countItems])
 
   return (
     <main>
@@ -64,10 +84,10 @@ function Movies() {
             ? 
               <Preloader />
             : 
-              <MoviesCardList data={filteredAndSearchedMovies} infoMessage={infoMessage}/>
+              <MoviesCardList data={items} infoMessage={infoMessage}/>
         }
         
-        <button className='movies__more button-hover' type='button'>Ещё</button>
+        { isVisibBtn ? <button className='movies__more button-hover' type='button' onClick={addHandle}>Ещё</button> : <div></div>}
       </section>
     </main>
   );
