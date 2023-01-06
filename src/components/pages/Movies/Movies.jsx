@@ -1,16 +1,15 @@
 import './Movies.css';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import MoviesCardList from '../../MoviesCardList/MoviesCardList';
 import SearchForm from '../../SearchForm/SearchForm';
 import { moviesApi } from '../../../utils/MoviesApi';
 import { DATA_NOT_FOUND, GET_DATA_ERROR } from '../../../utils/constants';
 import Preloader from '../../Preloader/Preloader';
 import { useMovies } from '../../../hooks/useMovies';
+import { useMoreCards, useWindowSize } from '../../../hooks/useMoreCards';
 
 function Movies() {
-
-  // const gridColumns = useRef(0);
 
   const [ movies, setMovies ] = useState((JSON.parse(localStorage.getItem('movies'))) || []);
   const [ isLoading, setIsLoading ] = useState(false);
@@ -23,16 +22,17 @@ function Movies() {
   const [ addItems, setAddItems ] = useState(0)
   const [ items, setItems ] = useState([])
   const [ isVisibBtn, setIsVisibBtn ] = useState(true);
-  const [ pageWidth, setPageWidth ] = useState(0);
-  const [ gridCount, setGridCount ] = useState(0);
+  
+  const windowWidth = useWindowSize();
+  const moreCardsCount = useMoreCards();
+
 
   const searchHandle = () => {
     if (!movies.length) loadData();
-    // setCountItems(4);
   }
 
-  const addHandle = () => {
-    setCountItems( count => count + addItems)
+  const morecardsHandle = () => {
+    setCountItems(countItems + addItems)
   }
 
   const loadData = () => {
@@ -50,46 +50,19 @@ function Movies() {
       })
       .finally(() => {
         setIsLoading(false);
-        // console.log('finally');
       })
   }
 
-  const getGridColumns = (gridColumns) => {
-    // console.log(gridColumns);
-  };
-
+  useEffect(() => {
+    console.log(windowWidth);
+    if (windowWidth < 633) return setCountItems(5);
+    if (windowWidth < 1137) return setCountItems(8);
+    setCountItems(12);
+  }, [windowWidth])
 
   useEffect(() => {
-
-    switch(gridCount) {
-      case 1:  // if (x === 'value1')
-        setCountItems(5);
-        setAddItems(1);
-        break;
-      case 2:  // if (x === 'value2')
-        setCountItems(8);
-        setAddItems(2);
-        break;
-      // case 3:    
-      default:
-        setCountItems(12);
-        setAddItems(3);
-        break;
-    }
-
-    // if (pageWidth < 480) {
-    //   setCountItems(5);
-    //   setAddItems(1)
-    //   return 
-    // }
-    // if (pageWidth < 1024) {
-    //   setCountItems(8)
-    //   setAddItems(2);
-    //   return
-    // }
-    // setCountItems(12);
-    // setAddItems(3);
-  }, [gridCount])
+    setAddItems(moreCardsCount);
+  }, [moreCardsCount])
 
   useEffect(() => {
     localStorage.setItem('movies', JSON.stringify(movies));
@@ -112,6 +85,10 @@ function Movies() {
     
   }, [filteredAndSearchedMovies, countItems])
 
+  // useEffect(() => {
+  //   console.log(moreCardsCount);
+  // }, [moreCardsCount])
+
   return (
     <main>
       <SearchForm
@@ -125,10 +102,10 @@ function Movies() {
             ? 
               <Preloader />
             : 
-              <MoviesCardList data={items} infoMessage={infoMessage} getGridColumns={getGridColumns} />
+              <MoviesCardList data={items} infoMessage={infoMessage} />
         }
         
-        { isVisibBtn ? <button className='movies__more button-hover' type='button' onClick={addHandle}>Ещё</button> : <div></div>}
+        { isVisibBtn ? <button className='movies__more button-hover' type='button' onClick={morecardsHandle}>Ещё</button> : <div></div>}
       </section>
     </main>
   );
