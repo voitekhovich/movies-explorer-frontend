@@ -1,4 +1,5 @@
 export const BEATFILM_API_URL = 'https://api.nomoreparties.co';
+export const MAIN_API_URL = 'http://localhost:3001';
 export const headers = {
   "Content-Type": "application/json",
 };

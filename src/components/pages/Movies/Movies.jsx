@@ -15,7 +15,7 @@ function Movies() {
   const [ isLoading, setIsLoading ] = useState(false);
   const [ infoMessage, setInfoMessage ] = useState(DATA_NOT_FOUND);
   const [ filter, setFilter ] = useState((JSON.parse(localStorage.getItem('filter'))) || ({shortFilms: false, searchQuery: ''}));
-
+  
   const filteredAndSearchedMovies = useMovies(movies, filter.shortFilms, filter.searchQuery);
 
   const [ countItems, setCountItems ] = useState(0);

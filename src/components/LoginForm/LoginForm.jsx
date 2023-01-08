@@ -9,7 +9,7 @@ export default function LoginForm(props) {
       <div className='login-form__container'>
         <Logo className='login-form__logo'/>
         <h2 className='login-form__heading'>{props.title}</h2>
-        <form className="login-form__form">
+        <form className="login-form__form" onSubmit={props.onSubmit}>
           
             { props.children }
             <span className='login-form__error'>Что-то пошло не так...</span>

@@ -6,7 +6,13 @@ function EntryField(props) {
 
   return (
     <label className='entry-field'>{props.placeholder}
-      <input className='entry-field__input' type="text" defaultValue={props.defaultValue} />
+      <input className='entry-field__input'
+        id={props.id}
+        name={props.name}
+        type={props.type}
+        value={props.value}
+        onChange={props.onChange}
+      />
     </label>
   );
 }
