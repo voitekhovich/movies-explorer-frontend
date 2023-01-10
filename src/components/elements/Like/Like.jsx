@@ -1,12 +1,19 @@
 import './Like.css';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-function Like() {
+function Like(props) {
 
   const [ isLike, setIsLike ] = useState(false);
 
-  const handleClick = () => setIsLike(!isLike);
+  const handleClick = () => {
+    setIsLike(!isLike);
+    props.onCardLike(props.card)
+  }
+
+  useEffect(() => {
+    if (props.isLiked) setIsLike(true);
+  }, [props.isLiked])
 
   return (
     <button

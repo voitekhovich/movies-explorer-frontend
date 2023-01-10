@@ -1,4 +1,4 @@
-import { MAIN_API_URL , headers } from "./constants.js";
+import { MAIN_API_URL , headers, BEATFILM_API_URL } from "./constants.js";
 
 class Api {
   constructor({ baseUrl, headers }) {
@@ -47,9 +47,12 @@ class Api {
   }
 
   getInitialCards() {
-    return this._request("/cards", {
+    return this._request("/movies", {
       headers: this._headers,
     });
+    // return this._request("/cards", {
+    //   headers: this._headers,
+    // });
   }
 
   addCard(card) {
@@ -70,18 +73,41 @@ class Api {
     });
   }
 
-  setLike(cardId) {
-    return this._request(`/cards/${cardId}/likes`, {
-      method: "PUT",
+  setLike(card) {
+
+    return this._request("/movies", {
+      method: "POST",
       headers: this._headers,
+      body: JSON.stringify({
+        country: card.country,
+        director: card.director,
+        duration: card.duration,
+        year: card.year,
+        description: card.description,
+        image: `${ BEATFILM_API_URL }${ card.image.url }`,
+        trailerLink: card.trailerLink,
+        nameRU: card.nameRU,
+        nameEN: card.nameEN,
+        thumbnail: `${ BEATFILM_API_URL }${ card.image.formats.thumbnail.url }`,
+        movieId: card.id,
+      }),
     });
+
+    // return this._request(`/cards/${cardId}/likes`, {
+    //   method: "PUT",
+    //   headers: this._headers,
+    // });
   }
 
-  delLikes(cardId) {
-    return this._request(`/cards/${cardId}/likes`, {
+  delLikes(card) {
+    return this._request(`/movies/${card.id}`, {
       method: "DELETE",
       headers: this._headers,
     });
+    // return this._request(`/cards/${cardId}/likes`, {
+    //   method: "DELETE",
+    //   headers: this._headers,
+    // });
   }
 
   changeLikeCardStatus(cardId, isLiked) {

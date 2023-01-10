@@ -1,13 +1,17 @@
 import './SavedMovies.css';
 
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import MoviesCardList from '../../MoviesCardList/MoviesCardList';
-import { data } from '../../../utils/data.js'
+import { api } from "../../../utils/Api";
 import SearchForm from '../../SearchForm/SearchForm';
+import { CurrentUserContext } from '../../../contexts/CurrentUserContext';
+import Preloader from '../../Preloader/Preloader';
 
 function SavedMovies() {
   const [ savedMovies, setSavedMovies ] = useState([]);
   const [ filter, setFilter ] = useState({shortFilms: false, searchQuery: ''});
+  const [ isLoading, setIsLoading ] = useState(false);
+  // const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
 
   // const filteredAndSearchedMovies = useMovies(movies, filter.shortFilms, filter.searchQuery);
 
@@ -15,6 +19,18 @@ function SavedMovies() {
     console.log(savedMovies.length);
     // if (!savedMovies.length) loadData();
   }
+
+  React.useEffect(() => {
+    // setIsLoading(true);
+    // onTokenCheck();
+    api.getInitialCards()
+      .then((movies) => {
+        setSavedMovies(movies);
+      })
+      .catch((err) => console.log(err))
+      .finally(() => setIsLoading(false));
+  }, []);
+
   return (
     <main className='main'>
       <SearchForm 
@@ -22,7 +38,12 @@ function SavedMovies() {
         filter={filter}
         setFilter={setFilter}/>
       <section className="saved-movies">
-        <MoviesCardList data={ savedMovies }/>
+        { isLoading
+            ? 
+              <Preloader />
+            : 
+              <MoviesCardList data={savedMovies} />
+        }
       </section>
     </main>  
   );

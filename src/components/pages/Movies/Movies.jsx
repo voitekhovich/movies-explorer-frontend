@@ -1,6 +1,6 @@
 import './Movies.css';
 
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import MoviesCardList from '../../MoviesCardList/MoviesCardList';
 import SearchForm from '../../SearchForm/SearchForm';
 import { moviesApi } from '../../../utils/MoviesApi';
@@ -8,10 +8,13 @@ import { DATA_NOT_FOUND, GET_DATA_ERROR } from '../../../utils/constants';
 import Preloader from '../../Preloader/Preloader';
 import { useMovies } from '../../../hooks/useMovies';
 import { useMoreCards, useWindowSize } from '../../../hooks/useMoreCards';
+import { CurrentUserContext } from '../../../contexts/CurrentUserContext';
+import { api } from "../../../utils/Api";
 
 function Movies() {
 
   const [ movies, setMovies ] = useState((JSON.parse(localStorage.getItem('movies'))) || []);
+  const [ savedMovies, setSavedMovies ] = useState([]);
   const [ isLoading, setIsLoading ] = useState(false);
   const [ infoMessage, setInfoMessage ] = useState(DATA_NOT_FOUND);
   const [ filter, setFilter ] = useState((JSON.parse(localStorage.getItem('filter'))) || ({shortFilms: false, searchQuery: ''}));
@@ -26,6 +29,8 @@ function Movies() {
   const windowWidth = useWindowSize();
   const moreCardsCount = useMoreCards();
 
+  const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
+
 
   const searchHandle = () => {
     if (!movies.length) loadData();
@@ -39,9 +44,10 @@ function Movies() {
     setIsLoading(true)
     setInfoMessage(DATA_NOT_FOUND)
     
-    moviesApi.getAllData()
-      .then((data) => {
+    Promise.all([moviesApi.getAllData(), api.getInitialCards()])
+      .then(([data, savedCards]) => {
         setMovies(data);
+        setSavedMovies(savedCards);
         return data;
       })
       .catch((err) => {
@@ -52,6 +58,22 @@ function Movies() {
         setIsLoading(false);
       })
   }
+
+  const handleCardLike = (card) => {
+    // const isLiked = card.likes.some((i) => i._id === currentUser._id);
+    // const isLiked = card.likes.some((i) => i === currentUser._id);
+    const isLiked = false;
+
+    api
+      .changeLikeCardStatus(card, !isLiked)
+      .then((newCard) => {
+        // setItems((state) =>
+        //   state.map((c) => (c.movieId === card.movieId ? newCard : c))
+        // );
+        console.log('Saved!')
+      })
+      .catch((err) => console.log(err));
+  };
 
   useEffect(() => {
     console.log(windowWidth);
@@ -102,7 +124,7 @@ function Movies() {
             ? 
               <Preloader />
             : 
-              <MoviesCardList data={items} infoMessage={infoMessage} />
+              <MoviesCardList data={items} savedMovies={savedMovies} infoMessage={infoMessage} onCardLike={handleCardLike} />
         }
         
         { isVisibBtn ? <button className='movies__more button-hover' type='button' onClick={morecardsHandle}>Ещё</button> : <div></div>}
