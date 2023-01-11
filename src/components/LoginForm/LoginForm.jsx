@@ -2,6 +2,7 @@ import './LoginForm.css'
 import React from "react";
 import Logo from "../elements/Logo/Logo";
 import { Link } from 'react-router-dom';
+import Preloader from "../Preloader/Preloader";
 
 export default function LoginForm(props) {
   return (
@@ -12,10 +13,16 @@ export default function LoginForm(props) {
         <form className="login-form__form" onSubmit={props.onSubmit}>
           
             { props.children }
-            <span className='login-form__error'>Что-то пошло не так...</span>
 
-            <button className="login-form__button button-hover" type="submit">
-              {props.submitTitle}
+            { props.isLoading && <Preloader /> }
+
+            <span className='login-form__error'>{props.error}</span>
+
+            <button 
+              className="login-form__button button-hover"
+              type="submit"
+              disabled={!props.isValid || props.isLoading}>
+                {props.submitTitle}
             </button>
 
         </form>

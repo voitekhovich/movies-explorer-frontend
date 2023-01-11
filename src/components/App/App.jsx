@@ -1,4 +1,4 @@
-import './App.css';
+import "./App.css";
 import React from "react";
 import { Route, Switch, useHistory } from "react-router-dom";
 
@@ -8,16 +8,15 @@ import SavedMovies from "../pages/SavedMovies/SavedMovies";
 import Profile from "../pages/Profile/Profile";
 import Login from "../pages/Login/Login";
 import Register from "../pages/Register/Register";
-import PageNotFound from '../pages/PageNotFound/PageNotFound';
-import Header from '../Header/Header';
-import Footer from '../Footer/Footer';
+import PageNotFound from "../pages/PageNotFound/PageNotFound";
+import Header from "../Header/Header";
+import Footer from "../Footer/Footer";
 import * as auth from "../../utils/MainApi";
 import { api } from "../../utils/Api";
-import ProtectedRoute from '../ProtectedRoute';
-import { CurrentUserContext } from '../../contexts/CurrentUserContext';
+import ProtectedRoute from "../ProtectedRoute";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
 export default function App() {
-
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const [currentUser, setCurrentUser] = React.useState({});
   const history = useHistory();
@@ -53,7 +52,8 @@ export default function App() {
   };
 
   const tokenCheck = () => {
-      api.getUserInfo()
+    api
+      .getUserInfo()
       .then((user) => {
         setCurrentUser(user);
         setIsLoggedIn(true);
@@ -65,7 +65,7 @@ export default function App() {
             break;
           default:
             console.log(err);
-        };
+        }
       });
   };
 
@@ -80,21 +80,25 @@ export default function App() {
 
   return (
     <React.Fragment>
+      <CurrentUserContext.Provider value={{ currentUser, setCurrentUser }}>
+        <Switch>
+          <Route path="/signin">
+            <Login onLogin={handleLogin} />
+          </Route>
+          <Route path="/signup">
+            <Register onRegister={handleRegister} />
+          </Route>
 
-      <Switch>
-        
-        <Route exact path="/">
-          <Main />
-        </Route>
-        <Route path="/signin">
-          <Login onLogin={handleLogin} />
-        </Route>
-        <Route path="/signup">
-          <Register onRegister={handleRegister} />
-        </Route>
+          <Route exact path="/">
+            <Header
+              className={"main__header"}
+              isLoggedIn={isLoggedIn}
+              onSignOut={handleSignOut}
+            />
+            <Main />
+          </Route>
 
-        <CurrentUserContext.Provider value={{currentUser, setCurrentUser}}>
-          <ProtectedRoute path="/" loggedIn={isLoggedIn}>
+          <ProtectedRoute loggedIn={isLoggedIn}>
             <Route path="/movies">
               <Header onSignOut={handleSignOut} />
               <Movies />
@@ -110,15 +114,12 @@ export default function App() {
               <Profile onSignOut={handleSignOut} />
             </Route>
           </ProtectedRoute>
-        </CurrentUserContext.Provider>
-        
-        
-        <Route path="*">
-          <PageNotFound />
-        </Route>
 
-      </Switch>
-      
+          <Route path="*">
+            <PageNotFound />
+          </Route>
+        </Switch>
+      </CurrentUserContext.Provider>
     </React.Fragment>
   );
 }

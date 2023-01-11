@@ -1,26 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
 import LoginForm from '../../LoginForm/LoginForm';
 import EntryField from '../../EntryField/EntryField';
-import { useForm } from '../../../hooks/useForm';
+import { useFormAndValidation } from '../../../hooks/useFormAndValidation';
 
 function Login(props) {
-
-  const {values, handleChange } = useForm({});
+  const [isLoading, setIsLoading ] = useState(false);
+  const [ error, setError ] = useState('');
+  const { values, isValid, errors, handleChange } =
+    useFormAndValidation();
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    console.log(values['email'], values['password']);
+    setIsLoading(true);
     return props.onLogin(values['email'], values['password'])
       .catch((err) => {
         switch (err) {
           case 400:
-            return Promise.reject(`${err} - не передано одно из полей`);
+            setError(`${err} - некорректно заполнено одно из полей`);
+            return Promise.reject(`${err} - некорректно заполнено одно из полей`);
           case 401:
-            return Promise.reject(`${err} - пользователь с email не найден`);
+            setError(`${err} - неправильный email или пароль`);
+            return Promise.reject(`${err} - неправильный email или пароль`);
           default:
             return Promise.reject(err);
         }
       })
+      .finally(() => setIsLoading(false));
   };
 
   return (
@@ -31,6 +36,9 @@ function Login(props) {
       subtitleLinkText="Регистрация"
       subtitleLink="/signup"
       onSubmit={handleSubmit}
+      isValid={isValid}
+      error={error}
+      isLoading={isLoading}
     >
       <EntryField 
         id="email"
@@ -38,6 +46,7 @@ function Login(props) {
         type="email"
         placeholder="E-mail"
         value={values['email'] || ""}
+        errors={errors}
         onChange={handleChange}
       />
       <EntryField 
@@ -46,6 +55,7 @@ function Login(props) {
         type="password"
         placeholder="Пароль"
         value={values['password'] || ""}
+        errors={errors}
         onChange={handleChange}
       />
     </LoginForm>
