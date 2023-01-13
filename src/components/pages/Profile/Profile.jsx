@@ -1,36 +1,94 @@
 import './Profile.css';
 
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { CurrentUserContext } from '../../../contexts/CurrentUserContext';
 import { api } from '../../../utils/Api';
+import { useFormAndValidation } from '../../../hooks/useFormAndValidation';
+import Preloader from '../../Preloader/Preloader';
 
 function Profile(props) {
   
+  const [ isLoading, setIsLoading ] = useState(false);
+  const [ error, setError ] = useState('');
+  const { values, setValues, isValid, errors, handleChange } =
+    useFormAndValidation();
   const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
 
-  const handleUpdateUser = (userData) => {
-    // setIsLoading(true);
-    api
-      .setUserInfo(userData)
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+    setIsLoading(true);
+    return api.setUserInfo(values['name'], values['email'])
       .then((user) => {
         setCurrentUser(user);
       })
-      .catch((err) => console.log(err))
-      .finally();
+      .catch((err) => {
+        switch (err) {
+          case 400:
+            setError(`${err} - некорректно заполнено одно из полей`);
+            return Promise.reject(`${err} - некорректно заполнено одно из полей`);
+          case 409:
+            setError(`${err} - такой email уже существует`);
+            return Promise.reject(`${err} - такой email уже существует`);
+          default:
+            return Promise.reject(err);
+        }
+      })
+      .finally(() => setIsLoading(false));
   };
+
+  React.useEffect(() => {
+      setValues({
+        ...values,
+        name: currentUser.name,
+        email: currentUser.email,
+      });
+  }, []);
 
   return (
     <main className='profile'>
       <div className='profile__box'>
         <h2 className='profile__title'>Привет, {currentUser.name}!</h2>
-        <form className='profile__form'>
-          <label className='profile__label'>Имя
-            <input className='profile__input' type="text" defaultValue={currentUser.name} />
-          </label>
-          <label className='profile__label'>E-mail
-            <input className='profile__input' type="email" defaultValue={currentUser.email} />
-          </label>
-          <button className='profile__button profile__submit link-hover'>Редактировать</button>
+        <form
+          className='profile__form'
+          onSubmit={handleSubmit}
+          error={error}
+        >
+            <label className='profile__label'>Имя
+              <input
+                className='profile__input'
+                id="name"
+                name="name"
+                type="text"
+                value={values['name'] || ''}
+                errors={errors}
+                onChange={handleChange}
+                required
+              />
+            </label>
+            { errors['name'] ? <span className="entry-field__input-error">{errors['name']}</span> : ''}
+            <label className='profile__label'>E-mail
+              <input
+                className='profile__input'
+                id="email"
+                name="email"
+                type="email"
+                placeholder="E-mail"
+                value={values['email'] || ''}
+                errors={errors}
+                onChange={handleChange}
+                required
+              />
+            </label>
+            { errors['email'] ? <span className="entry-field__input-error">{errors['email']}</span> : ''}
+
+            { isLoading && <Preloader /> }
+
+            <span className='login-form__error'>{error}</span>
+
+            <button
+              className='profile__button profile__submit link-hover'
+              disabled={!isValid || isLoading}
+            >Редактировать</button>
         </form>
         <button
           className='profile__button profile__exit link-hover' 

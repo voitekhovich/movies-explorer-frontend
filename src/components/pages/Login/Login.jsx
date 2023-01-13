@@ -4,7 +4,7 @@ import EntryField from '../../EntryField/EntryField';
 import { useFormAndValidation } from '../../../hooks/useFormAndValidation';
 
 function Login(props) {
-  const [isLoading, setIsLoading ] = useState(false);
+  const [ isLoading, setIsLoading ] = useState(false);
   const [ error, setError ] = useState('');
   const { values, isValid, errors, handleChange } =
     useFormAndValidation();

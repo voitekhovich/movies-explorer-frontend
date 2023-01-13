@@ -25,13 +25,13 @@ class Api {
     });
   }
 
-  setUserInfo(userData) {
+  setUserInfo(name, email) {
     return this._request("/users/me", {
       method: "PATCH",
       headers: this._headers,
       body: JSON.stringify({
-        name: userData.name,
-        about: userData.about,
+        name,
+        email,
       }),
     });
   }
