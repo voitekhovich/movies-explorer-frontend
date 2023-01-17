@@ -11,9 +11,7 @@ function SearchForm(props) {
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    if (values['search'] === '') return console.log('Нужно ввести ключевое слово');
-    setFilter({...filter, searchQuery: values['search']})
-    submitClick();
+    submitClick(values['search']);
   }
 
   useEffect(() => {
@@ -32,7 +30,6 @@ function SearchForm(props) {
           type="text"
           placeholder='Фильм'
           value={values['search'] || "" }
-          // value={filter.searchQuery}
           onChange={handleChange}
         />
         <button

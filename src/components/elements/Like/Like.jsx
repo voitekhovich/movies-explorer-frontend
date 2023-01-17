@@ -12,8 +12,8 @@ function Like(props) {
   }
 
   useEffect(() => {
-    if (props.isLiked) setIsLike(true);
-  }, [props.isLiked])
+    if (props.card.isLike) setIsLike(true);
+  }, [props.card.isLike])
 
   return (
     <button

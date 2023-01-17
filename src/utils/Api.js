@@ -93,10 +93,6 @@ class Api {
       }),
     });
 
-    // return this._request(`/cards/${cardId}/likes`, {
-    //   method: "PUT",
-    //   headers: this._headers,
-    // });
   }
 
   delLikes(card) {

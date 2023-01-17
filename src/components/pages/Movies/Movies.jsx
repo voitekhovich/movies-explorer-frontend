@@ -1,6 +1,6 @@
 import './Movies.css';
 
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import MoviesCardList from '../../MoviesCardList/MoviesCardList';
 import SearchForm from '../../SearchForm/SearchForm';
 import { moviesApi } from '../../../utils/MoviesApi';
@@ -8,13 +8,11 @@ import { DATA_NOT_FOUND, GET_DATA_ERROR } from '../../../utils/constants';
 import Preloader from '../../Preloader/Preloader';
 import { useMovies } from '../../../hooks/useMovies';
 import { useMoreCards, useWindowSize } from '../../../hooks/useMoreCards';
-import { CurrentUserContext } from '../../../contexts/CurrentUserContext';
 import { api } from "../../../utils/Api";
 
 function Movies() {
 
   const [ movies, setMovies ] = useState((JSON.parse(localStorage.getItem('movies'))) || []);
-  const [ savedMovies, setSavedMovies ] = useState([]);
   const [ isLoading, setIsLoading ] = useState(false);
   const [ infoMessage, setInfoMessage ] = useState(DATA_NOT_FOUND);
   const [ filter, setFilter ] = useState((JSON.parse(localStorage.getItem('filter'))) || ({shortFilms: false, searchQuery: ''}));
@@ -23,16 +21,16 @@ function Movies() {
 
   const [ countItems, setCountItems ] = useState(0);
   const [ addItems, setAddItems ] = useState(0)
-  const [ items, setItems ] = useState([])
+  const [ result, setResult ] = useState([])
   const [ isVisibBtn, setIsVisibBtn ] = useState(true);
   
   const windowWidth = useWindowSize();
   const moreCardsCount = useMoreCards();
 
-  const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
 
-
-  const searchHandle = () => {
+  const searchHandle = (searchQuery) => {
+    if (searchQuery === '') return console.log('Нужно ввести ключевое слово');
+    setFilter({...filter, searchQuery: searchQuery})
     if (!movies.length) loadData();
   }
 
@@ -46,8 +44,12 @@ function Movies() {
     
     Promise.all([moviesApi.getAllData(), api.getInitialCards()])
       .then(([data, savedCards]) => {
-        setMovies(data);
-        setSavedMovies(savedCards);
+        setMovies(data.map((item) => (
+          {
+            isLike: savedCards.some((i) => i.movieId === item.id),
+            ...item,
+          }
+        )));
         return data;
       })
       .catch((err) => {
@@ -60,23 +62,22 @@ function Movies() {
   }
 
   const handleCardLike = (card) => {
-    // const isLiked = card.likes.some((i) => i._id === currentUser._id);
-    // const isLiked = card.likes.some((i) => i === currentUser._id);
-    const isLiked = false;
-
+    // console.log(card)
     api
-      .changeLikeCardStatus(card, !isLiked)
+      .changeLikeCardStatus(card, !card.isLike)
       .then((newCard) => {
-        // setItems((state) =>
-        //   state.map((c) => (c.movieId === card.movieId ? newCard : c))
+        // setMovies((state) =>
+          // state.map((c) => (c.movieId === card.movieId ? newCard : c))
+          // card.isLike = 
         // );
+        card.isLike = !card.isLike;
+        console.log(card);
         console.log('Saved!')
       })
       .catch((err) => console.log(err));
   };
 
   useEffect(() => {
-    console.log(windowWidth);
     if (windowWidth < 633) return setCountItems(5);
     if (windowWidth < 1137) return setCountItems(8);
     setCountItems(12);
@@ -102,14 +103,10 @@ function Movies() {
       setIsVisibBtn(false);
     };
 
-    setItems(filteredAndSearchedMovies.slice(0, countItems));
-    console.log(`ALL: ${filteredAndSearchedMovies.length} NOW: ${countItems}`)
+    setResult(filteredAndSearchedMovies.slice(0, countItems));
     
   }, [filteredAndSearchedMovies, countItems])
 
-  // useEffect(() => {
-  //   console.log(moreCardsCount);
-  // }, [moreCardsCount])
 
   return (
     <main>
@@ -124,7 +121,7 @@ function Movies() {
             ? 
               <Preloader />
             : 
-              <MoviesCardList data={items} savedMovies={savedMovies} infoMessage={infoMessage} onCardLike={handleCardLike} />
+              <MoviesCardList data={result} infoMessage={infoMessage} onCardLike={handleCardLike} />
         }
         
         { isVisibBtn ? <button className='movies__more button-hover' type='button' onClick={morecardsHandle}>Ещё</button> : <div></div>}
