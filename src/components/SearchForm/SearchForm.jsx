@@ -11,6 +11,7 @@ function SearchForm(props) {
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
+    // props.setQuery(values['search']);
     submitClick(values['search']);
   }
 
@@ -39,6 +40,8 @@ function SearchForm(props) {
       </form>
       <FilterCheckbox
         className='search-form__check-box'
+        setCheckBox={props.setCheckBox}
+        checkBox={props.checkBox}
         filter={ filter }
         setFilter={ setFilter }/>
     </div>

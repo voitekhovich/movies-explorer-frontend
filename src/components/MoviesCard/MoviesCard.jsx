@@ -28,7 +28,7 @@ function MoviesCard(props) {
       <div className="movies-card__info-box">
         <div className="movies-card__title-box">
           <h2 className="movies-card__title text-nowrap">{card.nameRU}</h2>
-          <Like onCardLike={props.onCardLike} card={card}/>
+          <Like handleLikeClick={props.handleLikeClick} card={card}/>
         </div>
         <p className='movies-card__duration'>{moment(card.duration)}</p>
       </div>

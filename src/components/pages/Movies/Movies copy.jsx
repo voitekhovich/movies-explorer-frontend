@@ -27,51 +27,6 @@ function Movies() {
   const windowWidth = useWindowSize();
   const moreCardsCount = useMoreCards();
 
-  const [ movList, setMovList ] = useState([]);
-  const [ resList, setResList ] = useState([]);
-  const [ query, setQuery ] = useState('');
-  const [ checkBox, setCheckBox ] = useState(false);
-
-  const handleSearchClick = (query) => {
-    
-    console.log(query);
-
-    if (query === '') return console.log('Нужно ввести ключевое слово');
-    
-    setQuery(query);
-    if (!movList.length) {
-      setIsLoading(true);
-      moviesApi.getAllData()
-        .then((data) => {
-          setMovList(data.map((item) => (
-            {
-              isLike: true,
-              ...item,
-            })));
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-        .finally(() => {
-          setIsLoading(false);
-        })
-    }
-   
-  }
-
-
-  useEffect(() => {
-    const sort = movList.filter(item => item.nameRU.toLowerCase().includes(query.toLowerCase()));
-    const check = [...sort].filter(item => item.duration <= 40 && item)
-    if (checkBox) setResList(check);
-    else setResList(sort);
-    console.log(resList);
-    
-  }, [movList, query, checkBox])
-
-
-
-
 
   const searchHandle = (searchQuery) => {
     if (searchQuery === '') return console.log('Нужно ввести ключевое слово');
@@ -107,23 +62,19 @@ function Movies() {
   }
 
   const handleLikeClick = (card) => {
-    setMovList(movList.map((c) => {
-      if (c.id === card.id) {
-        const newC = { ...card, isLike: !card.isLike }
-        console.log(newC);
-        return newC;
-      }
-      return c;
-    }))
-
-
-    api
-      .changeLikeCardStatus(card, !card.isLike)
-      .then((newCard) => {
-          setMovList(movList.map((c) => (c.id === card.id ? { ...card, isLike: !card.isLike } : c )));
-
-      })
-      .catch((err) => console.log(err));
+    // console.log(card)
+    // api
+    //   .changeLikeCardStatus(card, !card.isLike)
+    //   .then((newCard) => {
+    //     // setMovies((state) =>
+    //       // state.map((c) => (c.movieId === card.movieId ? newCard : c))
+    //       // card.isLike = 
+    //     // );
+    //     card.isLike = !card.isLike;
+    //     console.log(card);
+    //     console.log('Saved!')
+    //   })
+    //   .catch((err) => console.log(err));
   };
 
   useEffect(() => {
@@ -160,11 +111,7 @@ function Movies() {
   return (
     <main>
       <SearchForm
-        query={query}
-        setQuery={setQuery}
-        checkBox={checkBox}
-        setCheckBox={setCheckBox}
-        submitClick={ handleSearchClick }
+        submitClick={ searchHandle }
         filter={filter}
         setFilter={setFilter}/>
       
@@ -174,7 +121,7 @@ function Movies() {
             ? 
               <Preloader />
             : 
-              <MoviesCardList data={resList} infoMessage={infoMessage} handleLikeClick={handleLikeClick} />
+              <MoviesCardList data={result} infoMessage={infoMessage} handleLikeClick={handleLikeClick} />
         }
         
         { isVisibBtn ? <button className='movies__more button-hover' type='button' onClick={morecardsHandle}>Ещё</button> : <div></div>}
