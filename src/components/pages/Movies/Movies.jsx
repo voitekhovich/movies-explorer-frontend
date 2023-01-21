@@ -1,161 +1,97 @@
-import './Movies.css';
+import "./Movies.css";
 
-import React, { useEffect, useState } from 'react';
-import MoviesCardList from '../../MoviesCardList/MoviesCardList';
-import SearchForm from '../../SearchForm/SearchForm';
-import { moviesApi } from '../../../utils/MoviesApi';
-import { DATA_NOT_FOUND, GET_DATA_ERROR } from '../../../utils/constants';
-import Preloader from '../../Preloader/Preloader';
-import { useMovies } from '../../../hooks/useMovies';
-import { useMoreCards, useWindowSize } from '../../../hooks/useMoreCards';
+import React, { useEffect, useState } from "react";
+import MoviesCardList from "../../MoviesCardList/MoviesCardList";
+import SearchForm from "../../SearchForm/SearchForm";
+import { moviesApi } from "../../../utils/MoviesApi";
+import { DATA_NOT_FOUND } from "../../../utils/constants";
+import Preloader from "../../Preloader/Preloader";
 import { api } from "../../../utils/Api";
 
 function Movies() {
+  const [isLoading, setIsLoading] = useState(false);
+  const [infoMessage, setInfoMessage] = useState(DATA_NOT_FOUND);
 
-  const [ movies, setMovies ] = useState((JSON.parse(localStorage.getItem('movies'))) || []);
-  const [ isLoading, setIsLoading ] = useState(false);
-  const [ infoMessage, setInfoMessage ] = useState(DATA_NOT_FOUND);
-  const [ filter, setFilter ] = useState((JSON.parse(localStorage.getItem('filter'))) || ({shortFilms: false, searchQuery: ''}));
-  
-  const filteredAndSearchedMovies = useMovies(movies, filter.shortFilms, filter.searchQuery);
+  const [isVisibBtn, setIsVisibBtn] = useState(true);
 
-  const [ countItems, setCountItems ] = useState(0);
-  const [ addItems, setAddItems ] = useState(0)
-  const [ result, setResult ] = useState([])
-  const [ isVisibBtn, setIsVisibBtn ] = useState(true);
-  
-  const windowWidth = useWindowSize();
-  const moreCardsCount = useMoreCards();
+  const [movList, setMovList] = useState([]);
+  const [resList, setResList] = useState([]);
+  const [query, setQuery] = useState("");
+  const [checkBox, setCheckBox] = useState(false);
 
-  const [ movList, setMovList ] = useState([]);
-  const [ resList, setResList ] = useState([]);
-  const [ query, setQuery ] = useState('');
-  const [ checkBox, setCheckBox ] = useState(false);
+  const loadFirstData = () => {
+    return Promise.all([moviesApi.getAllData(), api.getInitialCards()]).then(
+      ([moviesData, savedCards]) => {
+        return moviesData.map((item) => {
+          const sCard = savedCards.find((i) => i.movieId === item.id);
+          if (!sCard) return item;
+          return {
+            isLike: sCard._id,
+            ...item,
+          };
+        });
+      }
+    );
+  };
 
-  const handleSearchClick = (query) => {
-    
-    console.log(query);
+  const filterData = (data, query) => {
+    return data.filter((item) =>
+      item.nameRU.toLowerCase().includes(query.toLowerCase())
+    );
+  };
 
-    if (query === '') return console.log('Нужно ввести ключевое слово');
-    
-    setQuery(query);
-    if (!movList.length) {
-      setIsLoading(true);
-      moviesApi.getAllData()
-        .then((data) => {
-          setMovList(data.map((item) => (
-            {
-              isLike: true,
-              ...item,
-            })));
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-        .finally(() => {
-          setIsLoading(false);
-        })
+  const checkData = (data) => {
+    return data.filter((item) => item.duration <= 40 && item);
+  };
+
+  async function handleSearchClick() {
+    if (query === "") {
+      return console.log("Нужно ввести ключевое слово");
     }
-   
-  }
 
+    setIsLoading(true);
+
+    let data = [];
+    if (!movList.length)
+      data = await loadFirstData().then((data) => {
+        setMovList(data);
+        return data;
+      });
+    else data = movList;
+
+    let result = filterData(data, query);
+    if (checkBox) result = checkData(result);
+
+    setResList(result);
+
+    setIsLoading(false);
+  }
 
   useEffect(() => {
-    const sort = movList.filter(item => item.nameRU.toLowerCase().includes(query.toLowerCase()));
-    const check = [...sort].filter(item => item.duration <= 40 && item)
-    if (checkBox) setResList(check);
-    else setResList(sort);
-    console.log(resList);
-    
-  }, [movList, query, checkBox])
+    handleSearchClick();
+  }, [query]);
 
+  useEffect(() => {
+    handleSearchClick();
+  }, [checkBox]);
 
+  //   localStorage.setItem('query', JSON.stringify(query));
+  //   localStorage.setItem('checkBox', JSON.stringify(checkBox));
+  //   localStorage.setItem('resList', JSON.stringify(resList));
 
-
-
-  const searchHandle = (searchQuery) => {
-    if (searchQuery === '') return console.log('Нужно ввести ключевое слово');
-    setFilter({...filter, searchQuery: searchQuery})
-    if (!movies.length) loadData();
-  }
-
-  const morecardsHandle = () => {
-    setCountItems(countItems + addItems)
-  }
-
-  const loadData = () => {
-    setIsLoading(true)
-    setInfoMessage(DATA_NOT_FOUND)
-    
-    Promise.all([moviesApi.getAllData(), api.getInitialCards()])
-      .then(([data, savedCards]) => {
-        setMovies(data.map((item) => (
-          {
-            isLike: savedCards.some((i) => i.movieId === item.id),
-            ...item,
-          }
-        )));
-        return data;
-      })
-      .catch((err) => {
-        console.log(err);
-        setInfoMessage(GET_DATA_ERROR);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      })
-  }
+  //   setQuery(JSON.parse(localStorage.getItem('query')) || '');
+  //   setCheckBox(JSON.parse(localStorage.getItem('checkBox')) || false);
+  //   setResList(JSON.parse(localStorage.getItem('resList')) || []);
 
   const handleLikeClick = (card) => {
-    setMovList(movList.map((c) => {
-      if (c.id === card.id) {
-        const newC = { ...card, isLike: !card.isLike }
-        console.log(newC);
-        return newC;
-      }
-      return c;
-    }))
-
-
     api
-      .changeLikeCardStatus(card, !card.isLike)
+      .changeLikeCardStatus(card)
       .then((newCard) => {
-          setMovList(movList.map((c) => (c.id === card.id ? { ...card, isLike: !card.isLike } : c )));
-
+        if (!card.isLike) card.isLike = newCard._id;
+        else delete card.isLike;
       })
       .catch((err) => console.log(err));
   };
-
-  useEffect(() => {
-    if (windowWidth < 633) return setCountItems(5);
-    if (windowWidth < 1137) return setCountItems(8);
-    setCountItems(12);
-  }, [windowWidth])
-
-  useEffect(() => {
-    setAddItems(moreCardsCount);
-  }, [moreCardsCount])
-
-  useEffect(() => {
-    localStorage.setItem('movies', JSON.stringify(movies));
-  }, [movies])
-
-  useEffect(() => {
-    localStorage.setItem('filter', JSON.stringify(filter));
-  }, [filter])
-
-  useEffect(() => {
-    if (countItems < filteredAndSearchedMovies.length)
-    {
-      setIsVisibBtn(true);
-    } else {
-      setIsVisibBtn(false);
-    };
-
-    setResult(filteredAndSearchedMovies.slice(0, countItems));
-    
-  }, [filteredAndSearchedMovies, countItems])
-
 
   return (
     <main>
@@ -164,20 +100,27 @@ function Movies() {
         setQuery={setQuery}
         checkBox={checkBox}
         setCheckBox={setCheckBox}
-        submitClick={ handleSearchClick }
-        filter={filter}
-        setFilter={setFilter}/>
-      
-      <section className="movies">
+        submitClick={handleSearchClick}
+      />
 
-        { isLoading
-            ? 
-              <Preloader />
-            : 
-              <MoviesCardList data={resList} infoMessage={infoMessage} handleLikeClick={handleLikeClick} />
-        }
-        
-        { isVisibBtn ? <button className='movies__more button-hover' type='button' onClick={morecardsHandle}>Ещё</button> : <div></div>}
+      <section className="movies">
+        {isLoading ? (
+          <Preloader />
+        ) : (
+          <MoviesCardList
+            data={resList}
+            infoMessage={infoMessage}
+            handleLikeClick={handleLikeClick}
+          />
+        )}
+
+        {isVisibBtn ? (
+          <button className="movies__more button-hover" type="button">
+            Ещё
+          </button>
+        ) : (
+          <div></div>
+        )}
       </section>
     </main>
   );

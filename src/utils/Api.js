@@ -95,20 +95,17 @@ class Api {
 
   }
 
-  delLikes(card) {
-    return this._request(`/movies/${card.id}`, {
+  delLikes(cardId) {
+    return this._request(`/movies/${cardId}`, {
       method: "DELETE",
       headers: this._headers,
     });
-    // return this._request(`/cards/${cardId}/likes`, {
-    //   method: "DELETE",
-    //   headers: this._headers,
-    // });
   }
 
-  changeLikeCardStatus(cardId, isLiked) {
-    if (isLiked) return this.setLike(cardId);
-    return this.delLikes(cardId);
+  changeLikeCardStatus(card) {
+    console.log(card);
+    if (!card.isLike) return this.setLike(card);
+    return this.delLikes(card.isLike);
   }
 }
 
