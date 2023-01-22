@@ -1,23 +1,27 @@
-import './SavedMovies.css';
+import "./SavedMovies.css";
 
-import React, { useState } from 'react';
-import MoviesCardList from '../../MoviesCardList/MoviesCardList';
+import React, { useState } from "react";
+import MoviesCardList from "../../MoviesCardList/MoviesCardList";
 import { api } from "../../../utils/Api";
-import SearchForm from '../../SearchForm/SearchForm';
-import Preloader from '../../Preloader/Preloader';
-import { useMovies } from '../../../hooks/useMovies';
+import SearchForm from "../../SearchForm/SearchForm";
+import Preloader from "../../Preloader/Preloader";
+import { useMovies } from "../../../hooks/useMovies";
 
 function SavedMovies() {
-  const [ savedMovies, setSavedMovies ] = useState([]);
-  const [ filter, setFilter ] = useState({shortFilms: false, searchQuery: ''});
-  const [ isLoading, setIsLoading ] = useState(false);
-  const [ result, setResult ] = useState([])
+  const [savedMovies, setSavedMovies] = useState([]);
+  const [filter, setFilter] = useState({ shortFilms: false, searchQuery: "" });
+  const [isLoading, setIsLoading] = useState(false);
+  const [result, setResult] = useState([]);
 
-  const filteredAndSearchedMovies = useMovies(savedMovies, filter.shortFilms, filter.searchQuery);
+  const filteredAndSearchedMovies = useMovies(
+    savedMovies,
+    filter.shortFilms,
+    filter.searchQuery
+  );
 
   const searchHandle = (searchQuery) => {
-    setFilter({...filter, searchQuery: searchQuery})
-  }
+    setFilter({ ...filter, searchQuery: searchQuery });
+  };
 
   React.useEffect(() => {
     setResult(filteredAndSearchedMovies);
@@ -26,7 +30,8 @@ function SavedMovies() {
   React.useEffect(() => {
     setIsLoading(true);
     // onTokenCheck();
-    api.getInitialCards()
+    api
+      .getInitialCards()
       .then((movies) => {
         setSavedMovies(movies);
       })
@@ -35,20 +40,16 @@ function SavedMovies() {
   }, []);
 
   return (
-    <main className='main'>
-      <SearchForm 
-        submitClick={ searchHandle }
+    <main className="main">
+      <SearchForm
         filter={filter}
-        setFilter={setFilter}/>
+        setFilter={setFilter}
+        submitClick={searchHandle}
+      />
       <section className="saved-movies">
-        { isLoading
-            ? 
-              <Preloader />
-            : 
-              <MoviesCardList data={ result } />
-        }
+        {isLoading ? <Preloader /> : <MoviesCardList data={savedMovies} />}
       </section>
-    </main>  
+    </main>
   );
 }
 

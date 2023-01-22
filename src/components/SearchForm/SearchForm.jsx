@@ -1,17 +1,26 @@
 import "./SearchForm.css";
 
-import React from "react";
+import React, { useEffect } from "react";
 import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 import { useForm } from "../../hooks/useForm";
 
 function SearchForm(props) {
-  const { values, handleChange } = useForm({ search: "" });
+  const { filter, setFilter, submitClick } = props;
+
+  const { values, setValues, handleChange } = useForm({ search: "" });
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    props.setQuery(values["search"]);
-    // props.submitClick(values["search"]);
+    setFilter((filter) => ({
+      ...filter,
+      query: values["search"],
+    }));
+    submitClick(filter);
   };
+
+  useEffect(() => {
+    setValues({ search: filter.query })
+  }, [filter.query])
 
   return (
     <div className="search-form">
@@ -33,8 +42,8 @@ function SearchForm(props) {
       </form>
       <FilterCheckbox
         className="search-form__check-box"
-        setCheckBox={props.setCheckBox}
-        checkBox={props.checkBox}
+        filter={filter}
+        setFilter={setFilter}
       />
     </div>
   );

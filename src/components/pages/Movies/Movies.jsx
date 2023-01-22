@@ -16,8 +16,7 @@ function Movies() {
 
   const [movList, setMovList] = useState([]);
   const [resList, setResList] = useState([]);
-  const [query, setQuery] = useState("");
-  const [checkBox, setCheckBox] = useState(false);
+  const [filter, setFilter] = useState({ query: "", checkBox: false });
 
   const loadFirstData = () => {
     return Promise.all([moviesApi.getAllData(), api.getInitialCards()]).then(
@@ -45,7 +44,7 @@ function Movies() {
   };
 
   async function handleSearchClick() {
-    if (query === "") {
+    if (filter.query === "") {
       return console.log("Нужно ввести ключевое слово");
     }
 
@@ -59,29 +58,26 @@ function Movies() {
       });
     else data = movList;
 
-    let result = filterData(data, query);
-    if (checkBox) result = checkData(result);
+    let result = filterData(data, filter.query);
+    if (filter.checkBox) result = checkData(result);
 
     setResList(result);
+
+    localStorage.setItem("filter", JSON.stringify(filter));
+    localStorage.setItem("resList", JSON.stringify(result));
 
     setIsLoading(false);
   }
 
   useEffect(() => {
-    handleSearchClick();
-  }, [query]);
-
-  useEffect(() => {
-    handleSearchClick();
-  }, [checkBox]);
-
-  //   localStorage.setItem('query', JSON.stringify(query));
-  //   localStorage.setItem('checkBox', JSON.stringify(checkBox));
-  //   localStorage.setItem('resList', JSON.stringify(resList));
-
-  //   setQuery(JSON.parse(localStorage.getItem('query')) || '');
-  //   setCheckBox(JSON.parse(localStorage.getItem('checkBox')) || false);
-  //   setResList(JSON.parse(localStorage.getItem('resList')) || []);
+    setResList(JSON.parse(localStorage.getItem("resList")) || []);
+    setFilter(
+      JSON.parse(localStorage.getItem("filter")) || {
+        query: "",
+        checkBox: false,
+      }
+    );
+  }, []);
 
   const handleLikeClick = (card) => {
     api
@@ -96,10 +92,8 @@ function Movies() {
   return (
     <main>
       <SearchForm
-        query={query}
-        setQuery={setQuery}
-        checkBox={checkBox}
-        setCheckBox={setCheckBox}
+        filter={filter}
+        setFilter={setFilter}
         submitClick={handleSearchClick}
       />
 

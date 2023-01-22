@@ -4,14 +4,20 @@ import React from "react";
 import cn from "classnames";
 
 function FilterCheckbox(props, { className }) {
+
+  const {filter, setFilter} = props;
+
   const isChecked = () => {
-    props.setCheckBox(!props.checkBox);
+    setFilter((filter) => ({
+      ...filter,
+      checkBox: !filter.checkBox,
+    }));
   };
 
   return (
     <div className={cn("filter-checkbox", className)}>
       <button
-        className={props.checkBox ? "checkbox checkbox_checked" : "checkbox"}
+        className={filter.checkBox ? "checkbox checkbox_checked" : "checkbox"}
         type="button"
         role="switch"
         aria-checked="false"
