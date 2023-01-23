@@ -7,9 +7,13 @@ import { moviesApi } from "../../../utils/MoviesApi";
 import Preloader from "../../Preloader/Preloader";
 import { mainApi } from "../../../utils/MainApi";
 import { useCountMoviesItems } from "../../../hooks/useCountMoviesItems";
-import { GET_DATA_ERROR, NEED_KEY_WORD } from "../../../utils/constants";
+import {
+  BEATFILM_API_URL,
+  GET_DATA_ERROR,
+  NEED_KEY_WORD,
+} from "../../../utils/constants";
 
-function Movies({tokenCheck}) {
+function Movies({ tokenCheck }) {
   const [isLoading, setIsLoading] = useState(false);
   const [infoMessage, setInfoMessage] = useState("");
   const [movList, setMovList] = useState([]);
@@ -32,6 +36,8 @@ function Movies({tokenCheck}) {
       mainApi.getInitialCards(),
     ]).then(([moviesData, savedCards]) => {
       return moviesData.map((item) => {
+        item.thumbnail = `${BEATFILM_API_URL}${item.image.formats.thumbnail.url}`;
+        item.image = `${BEATFILM_API_URL}${item.image.url}`;
         const sCard = savedCards.find((i) => i.movieId === item.id);
         if (!sCard) return item;
         return {
@@ -117,22 +123,21 @@ function Movies({tokenCheck}) {
         ) : infoMessage ? (
           <p className="movies__info-message">{infoMessage}</p>
         ) : (
-          <MoviesCardList
-            data={resultMoviesList}
-            handleLikeClick={handleLikeClick}
-          />
-        )}
-
-        {moreCardsState ? (
-          <button
-            className="movies__more button-hover"
-            type="button"
-            onClick={moreCardsHadle}
-          >
-            Ещё
-          </button>
-        ) : (
-          <div></div>
+          <React.Fragment>
+            <MoviesCardList
+              data={resultMoviesList}
+              handleLikeClick={handleLikeClick}
+            />
+            {moreCardsState && (
+              <button
+                className="movies__more button-hover"
+                type="button"
+                onClick={moreCardsHadle}
+              >
+                Ещё
+              </button>
+            )}
+          </React.Fragment>
         )}
       </section>
     </main>

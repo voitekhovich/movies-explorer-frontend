@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import LoginForm from '../../LoginForm/LoginForm';
 import EntryField from '../../EntryField/EntryField';
 import { useFormAndValidation } from '../../../hooks/useFormAndValidation';
+import { namePattern } from '../../../utils/constants';
 
 function Register(props) {
 
@@ -49,6 +50,8 @@ function Register(props) {
         value={values['name'] || ""}
         errors={errors}
         onChange={handleChange}
+        pattern={namePattern.pattern}
+        title={namePattern.title}
       />
       <EntryField 
         id="email"

@@ -85,11 +85,11 @@ class MainApi {
         duration: card.duration,
         year: card.year,
         description: card.description,
-        image: `${BEATFILM_API_URL}${card.image.url}`,
+        image: card.image,
         trailerLink: card.trailerLink,
         nameRU: card.nameRU,
         nameEN: card.nameEN,
-        thumbnail: `${BEATFILM_API_URL}${card.image.formats.thumbnail.url}`,
+        thumbnail: card.thumbnail,
         movieId: card.id,
       },
     });

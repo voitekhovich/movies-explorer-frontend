@@ -5,6 +5,7 @@ import { CurrentUserContext } from '../../../contexts/CurrentUserContext';
 import { mainApi } from '../../../utils/MainApi';
 import { useFormAndValidation } from '../../../hooks/useFormAndValidation';
 import Preloader from '../../Preloader/Preloader';
+import { namePattern } from '../../../utils/constants';
 
 function Profile(props) {
   
@@ -62,6 +63,8 @@ function Profile(props) {
                 value={values['name'] || ''}
                 errors={errors}
                 onChange={handleChange}
+                pattern={namePattern.pattern}
+                title={namePattern.title}
                 required
               />
             </label>

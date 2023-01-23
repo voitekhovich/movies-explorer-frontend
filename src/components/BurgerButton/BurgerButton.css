@@ -29,10 +29,12 @@
 }
 
 .burger-button.active::before {
+  background: #000;
   transform: translateY(9px) rotate(45deg);
   box-shadow: none;
 }
 .burger-button.active::after {
+  background: #000;
   transform: translateY(9px) rotate(-45deg);
 }
 

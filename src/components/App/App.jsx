@@ -1,6 +1,6 @@
 import "./App.css";
 import React from "react";
-import { Route, Switch, useHistory } from "react-router-dom";
+import { Redirect, Route, Switch, useHistory } from "react-router-dom";
 
 import Main from "../pages/Main/Main";
 import Movies from "../pages/Movies/Movies";
@@ -20,7 +20,6 @@ export default function App() {
   const [currentUser, setCurrentUser] = React.useState({});
   const history = useHistory();
 
-  
   const handleLogin = (email, password) => {
     return mainApi.authorize(email, password).then((user) => {
       setCurrentUser(user);
@@ -81,6 +80,24 @@ export default function App() {
     <React.Fragment>
       <CurrentUserContext.Provider value={{ currentUser, setCurrentUser }}>
         <Switch>
+        <ProtectedRoute loggedIn={isLoggedIn}>
+            <Route path="/movies">
+              <Header onSignOut={handleSignOut} />
+              <Movies tokenCheck={tokenCheck} />
+              <Footer />
+            </Route>
+            <Route path="/saved-movies">
+              <Header onSignOut={handleSignOut} />
+              <SavedMovies tokenCheck={tokenCheck} />
+              <Footer />
+            </Route>
+            <Route path="/profile">
+              <Header onSignOut={handleSignOut} />
+              <Profile tokenCheck={tokenCheck} onSignOut={handleSignOut} />
+            </Route>
+            
+          </ProtectedRoute>
+
           <Route path="/signin">
             <Login onLogin={handleLogin} />
           </Route>
@@ -96,27 +113,11 @@ export default function App() {
             />
             <Main />
           </Route>
-
-          <ProtectedRoute loggedIn={isLoggedIn} >
-            <Route path="/movies">
-              <Header onSignOut={handleSignOut} />
-              <Movies tokenCheck={tokenCheck}/>
-              <Footer />
-            </Route>
-            <Route path="/saved-movies">
-              <Header onSignOut={handleSignOut} />
-              <SavedMovies tokenCheck={tokenCheck}/>
-              <Footer />
-            </Route>
-            <Route path="/profile">
-              <Header onSignOut={handleSignOut} />
-              <Profile tokenCheck={tokenCheck} onSignOut={handleSignOut} />
-            </Route>
-          </ProtectedRoute>
-
+          
           <Route path="*">
-            <PageNotFound />
-          </Route>
+              <PageNotFound />
+            </Route>
+          
         </Switch>
       </CurrentUserContext.Provider>
     </React.Fragment>
