@@ -9,14 +9,16 @@ import { mainApi } from "../../../utils/MainApi";
 import { useCountMoviesItems } from "../../../hooks/useCountMoviesItems";
 import {
   BEATFILM_API_URL,
+  DATA_NOT_FOUND,
   GET_DATA_ERROR,
   MORE_CARDS_BUTTON__TITLE,
   NEED_KEY_WORD,
 } from "../../../utils/constants";
 
-function Movies({ tokenCheck }) {
+function Movies() {
   const [isLoading, setIsLoading] = useState(false);
   const [infoMessage, setInfoMessage] = useState("");
+  const [isNotFoundTitle, setIsNotFoundTitle] = useState("");
   const [movList, setMovList] = useState([]);
   const [filter, setFilter] = useState({ query: "", checkBox: false });
   const [pageCounter, setPageCounter] = useState(0);
@@ -57,6 +59,7 @@ function Movies({ tokenCheck }) {
     }
 
     setIsLoading(true);
+    setIsNotFoundTitle(DATA_NOT_FOUND)
 
     if (!movList.length)
       await loadFirstData()
@@ -127,6 +130,7 @@ function Movies({ tokenCheck }) {
             <MoviesCardList
               data={resultMoviesList}
               handleLikeClick={handleLikeClick}
+              isNotFound={isNotFoundTitle}
             />
             {moreCardsState && (
               <button

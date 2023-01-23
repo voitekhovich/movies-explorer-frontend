@@ -6,11 +6,13 @@ import { mainApi } from "../../../utils/MainApi";
 import SearchForm from "../../SearchForm/SearchForm";
 import Preloader from "../../Preloader/Preloader";
 import { useMovies } from "../../../hooks/useMovies";
+import { DATA_NOT_FOUND } from "../../../utils/constants";
 
 function SavedMovies({ tokenCheck }) {
   const [savedMovies, setSavedMovies] = useState([]);
   const [filter, setFilter] = useState({ query: "", checkBox: false });
   const [isLoading, setIsLoading] = useState(false);
+  const [isNotFoundTitle, setIsNotFoundTitle] = useState("");
 
   const filteredAndSearchedMovies = useMovies(
     savedMovies,
@@ -19,6 +21,7 @@ function SavedMovies({ tokenCheck }) {
   );
 
   const searchHandle = (query) => {
+    setIsNotFoundTitle(DATA_NOT_FOUND)
     setFilter((filter) => ({ ...filter, query }));
   };
 
@@ -64,6 +67,7 @@ function SavedMovies({ tokenCheck }) {
           <MoviesCardList
             data={filteredAndSearchedMovies}
             handleLikeClick={handleLikeClick}
+            isNotFound={isNotFoundTitle}
           />
         )}
       </section>
