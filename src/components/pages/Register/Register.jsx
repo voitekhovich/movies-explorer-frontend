@@ -6,6 +6,13 @@ import {
   MESSAGE_CONFLICT_EMAIL,
   MESSAGE_INCORRECT_USER_DATA,
   namePattern,
+  REGISTR_FORM_LOGIN_TITLE,
+  FORM_NAME_INPUT_PLACEHOLDER,
+  REGISTR_FORM_SUBMIT_TITLE,
+  REGISTR_FORM_TITLE,
+  FORM_EMAIL_INPUT_PLACEHOLDER,
+  FORM_PASSWD_INPUT_PLACEHOLDER,
+  LINK_SIGNIN_TITLE,
 } from "../../../utils/constants";
 
 function Register(props) {
@@ -35,10 +42,10 @@ function Register(props) {
 
   return (
     <LoginForm
-      title="Добро пожаловать!"
-      submitTitle="Зарегистрироваться"
-      subtitleText="Уже зарегистрированы?"
-      subtitleLinkText="Войти"
+      title={REGISTR_FORM_TITLE}
+      submitTitle={REGISTR_FORM_SUBMIT_TITLE}
+      subtitleText={REGISTR_FORM_LOGIN_TITLE}
+      subtitleLinkText={LINK_SIGNIN_TITLE}
       subtitleLink="/signin"
       onSubmit={handleSubmit}
       isValid={isValid}
@@ -49,7 +56,7 @@ function Register(props) {
         id="name"
         name="name"
         type="text"
-        placeholder="Имя"
+        placeholder={FORM_NAME_INPUT_PLACEHOLDER}
         value={values["name"] || ""}
         errors={errors}
         onChange={handleChange}
@@ -60,7 +67,7 @@ function Register(props) {
         id="email"
         name="email"
         type="email"
-        placeholder="E-mail"
+        placeholder={FORM_EMAIL_INPUT_PLACEHOLDER}
         value={values["email"] || ""}
         errors={errors}
         onChange={handleChange}
@@ -69,7 +76,7 @@ function Register(props) {
         id="password"
         name="password"
         type="password"
-        placeholder="Пароль"
+        placeholder={FORM_PASSWD_INPUT_PLACEHOLDER}
         value={values["password"] || ""}
         errors={errors}
         onChange={handleChange}

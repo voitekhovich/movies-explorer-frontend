@@ -3,6 +3,7 @@ import "./SearchForm.css";
 import React, { useEffect } from "react";
 import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 import { useFormAndValidation } from "../../hooks/useFormAndValidation";
+import { LINK_MOVIES_TITLE } from "../../utils/constants";
 
 function SearchForm(props) {
   const { filter, setFilter, submitClick } = props;
@@ -30,7 +31,7 @@ function SearchForm(props) {
           id="search"
           name="search"
           type="text"
-          placeholder="Фильм"
+          placeholder={LINK_MOVIES_TITLE}
           value={values["search"] || ""}
           onChange={handleChange}
           required

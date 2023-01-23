@@ -2,12 +2,18 @@ import "./MoviesCard.css";
 
 import React from "react";
 import Like from "../elements/Like/Like";
+import {
+  MOVIES_CARD_DURATION_HOURS,
+  MOVIES_CARD_DURATION_MINUTES,
+} from "../../utils/constants";
 
 function MoviesCard(props) {
   const { card, likeStyle } = props;
 
   const moment = (time) => {
-    return `${Math.floor(time / 60)}ч ${time % 60}м`;
+    return `${Math.floor(time / 60)}${MOVIES_CARD_DURATION_HOURS} ${
+      time % 60
+    }${MOVIES_CARD_DURATION_MINUTES}`;
   };
 
   return (

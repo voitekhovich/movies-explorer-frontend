@@ -5,7 +5,16 @@ import { AuthContext } from "../../../contexts/AuthContext";
 import { mainApi } from "../../../utils/MainApi";
 import { useFormAndValidation } from "../../../hooks/useFormAndValidation";
 import Preloader from "../../Preloader/Preloader";
-import { namePattern } from "../../../utils/constants";
+import {
+  FORM_EMAIL_INPUT_PLACEHOLDER,
+  FORM_NAME_INPUT_PLACEHOLDER,
+  LINK_SIGNOUT_TITLE,
+  MESSAGE_CONFLICT_EMAIL,
+  MESSAGE_INCORRECT_USER_DATA,
+  namePattern,
+  PROFILE_SUBMIT_TITLE,
+  PROFILE_WELCOM_TITLE,
+} from "../../../utils/constants";
 
 function Profile(props) {
   const [isLoading, setIsLoading] = useState(false);
@@ -17,7 +26,7 @@ function Profile(props) {
   const handleSubmit = (evt) => {
     evt.preventDefault();
     setIsLoading(true);
-    setError('');
+    setError("");
     return mainApi
       .setUserInfo(values["name"], values["email"])
       .then((user) => {
@@ -26,15 +35,13 @@ function Profile(props) {
       .catch((err) => {
         switch (err) {
           case 400:
-            setError(`${err} - некорректно заполнено одно из полей`);
-            return Promise.reject(
-              `${err} - некорректно заполнено одно из полей`
-            );
+            setError(MESSAGE_INCORRECT_USER_DATA);
+            break;
           case 409:
-            setError(`${err} - такой email уже существует`);
-            return Promise.reject(`${err} - такой email уже существует`);
+            setError(MESSAGE_CONFLICT_EMAIL);
+            break;
           default:
-            return Promise.reject(err);
+            setError(err);
         }
       })
       .finally(() => setIsLoading(false));
@@ -53,10 +60,12 @@ function Profile(props) {
   return (
     <main className="profile">
       <div className="profile__box">
-        <h2 className="profile__title">Привет, {currentUser.name}!</h2>
+        <h2 className="profile__title">
+          {PROFILE_WELCOM_TITLE}, {currentUser.name}!
+        </h2>
         <form className="profile__form" onSubmit={handleSubmit} error={error}>
           <label className="profile__label">
-            Имя
+            {FORM_NAME_INPUT_PLACEHOLDER}
             <input
               className="profile__input"
               id="name"
@@ -76,13 +85,13 @@ function Profile(props) {
             ""
           )}
           <label className="profile__label">
-            E-mail
+            {FORM_EMAIL_INPUT_PLACEHOLDER}
             <input
               className="profile__input"
               id="email"
               name="email"
               type="email"
-              placeholder="E-mail"
+              placeholder={FORM_EMAIL_INPUT_PLACEHOLDER}
               value={values["email"] || ""}
               errors={errors}
               onChange={handleChange}
@@ -103,14 +112,14 @@ function Profile(props) {
             className="profile__button profile__submit link-hover"
             disabled={!isValid || isLoading}
           >
-            Редактировать
+            {PROFILE_SUBMIT_TITLE}
           </button>
         </form>
         <button
           className="profile__button profile__exit link-hover"
           onClick={props.onSignOut}
         >
-          Выйти из аккаунта
+          {LINK_SIGNOUT_TITLE}
         </button>
       </div>
     </main>

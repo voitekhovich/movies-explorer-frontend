@@ -1,11 +1,10 @@
-import './MoviesCardList.css';
-import MoviesCard from '../MoviesCard/MoviesCard';
+import "./MoviesCardList.css";
+import MoviesCard from "../MoviesCard/MoviesCard";
 import { DATA_NOT_FOUND } from "../../utils/constants";
 
 function MoviesCardList(props) {
-
   if (!props.data.length)
-  return <p className='movies__info-message'>{ DATA_NOT_FOUND }</p>
+    return <p className="movies__info-message">{DATA_NOT_FOUND}</p>;
 
   return (
     <ul className="movies-cards">

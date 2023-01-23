@@ -1,10 +1,9 @@
-import './BurgerButton.css';
+import "./BurgerButton.css";
 
-import React from 'react';
-import cn from 'classnames';
+import React from "react";
+import cn from "classnames";
 
 function BurgerButton(props) {
-
   const btmBurger = React.useRef();
 
   const handleBurgerClick = () => {
@@ -14,9 +13,9 @@ function BurgerButton(props) {
 
   return (
     <div
-      className={cn('burger-button', 'button-hover', props.className)}
+      className={cn("burger-button", "button-hover", props.className)}
       ref={btmBurger}
-      onClick={ handleBurgerClick }
+      onClick={handleBurgerClick}
     />
   );
 }

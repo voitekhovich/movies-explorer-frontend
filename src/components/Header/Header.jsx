@@ -9,6 +9,7 @@ import ButtonProfile from "../elements/ButtonProfile/ButtonProfile";
 import BurgerButton from "../BurgerButton/BurgerButton";
 import BurgerNavigation from "../BurgerNavigation/BurgerNavigation";
 import { Link } from "react-router-dom";
+import { LINK_SIGNIN_TITLE, LINK_SIGNUP_TITLE } from "../../utils/constants";
 
 function Header({ className, isLoggedIn = true }) {
   const [isBurgerEnable, setIsBurgerEnable] = useState(false);
@@ -25,7 +26,7 @@ function Header({ className, isLoggedIn = true }) {
           <ul className={"main__nav-tab"}>
             <li>
               <Link to="/signup" className="main__link link-hover">
-                Регистрация
+                {LINK_SIGNUP_TITLE}
               </Link>
             </li>
             <li>
@@ -33,7 +34,7 @@ function Header({ className, isLoggedIn = true }) {
                 to="/signin"
                 className="main__link main__link-button button-hover"
               >
-                Войти
+                {LINK_SIGNIN_TITLE}
               </Link>
             </li>
           </ul>

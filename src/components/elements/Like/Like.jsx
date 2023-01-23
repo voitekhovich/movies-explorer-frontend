@@ -12,7 +12,11 @@ function Like(props) {
   return (
     <button
       className={
-        likeStyle ? (card.isLike ? "like like_active" : "like") : "like like_delete"
+        likeStyle
+          ? card.isLike
+            ? "like like_active"
+            : "like"
+          : "like like_delete"
       }
       type="button"
       aria-label="Нравится"

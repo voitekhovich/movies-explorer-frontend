@@ -45,7 +45,7 @@ export default function App() {
   const handleSignOut = () => {
     mainApi.signout().then((data) => {
       localStorage.clear();
-      setCurrentUser({})
+      setCurrentUser({});
       setIsLoggedIn(false);
       history.push("/signin");
     });

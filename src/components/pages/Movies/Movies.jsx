@@ -49,7 +49,6 @@ function Movies({ tokenCheck }) {
   };
 
   async function handleSearchClick(query) {
-
     setInfoMessage("");
 
     if (query === "") {
@@ -114,7 +113,7 @@ function Movies({ tokenCheck }) {
       <SearchForm
         filter={filter}
         setFilter={setFilter}
-        submitClick={!isLoading ? handleSearchClick : ()=>{} }
+        submitClick={!isLoading ? handleSearchClick : () => {}}
       />
 
       <section className="movies">

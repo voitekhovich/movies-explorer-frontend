@@ -7,16 +7,19 @@ import SearchForm from "../../SearchForm/SearchForm";
 import Preloader from "../../Preloader/Preloader";
 import { useMovies } from "../../../hooks/useMovies";
 
-function SavedMovies({tokenCheck}) {
+function SavedMovies({ tokenCheck }) {
   const [savedMovies, setSavedMovies] = useState([]);
   const [filter, setFilter] = useState({ query: "", checkBox: false });
   const [isLoading, setIsLoading] = useState(false);
-  
 
-  const filteredAndSearchedMovies = useMovies(savedMovies, filter.checkBox, filter.query);
+  const filteredAndSearchedMovies = useMovies(
+    savedMovies,
+    filter.checkBox,
+    filter.query
+  );
 
   const searchHandle = (query) => {
-    setFilter((filter) => ({...filter, query }));
+    setFilter((filter) => ({ ...filter, query }));
   };
 
   const handleLikeClick = (card) => {
@@ -25,11 +28,11 @@ function SavedMovies({tokenCheck}) {
       .then((result) => {
         setSavedMovies((state) => state.filter((c) => c._id !== card._id));
 
-        const movList = (JSON.parse(localStorage.getItem("movList")) || []); 
+        const movList = JSON.parse(localStorage.getItem("movList")) || [];
         movList.map((item) => {
-            if (item.id === card.movieId) delete item.isLike
-            return item;
-          });   
+          if (item.id === card.movieId) delete item.isLike;
+          return item;
+        });
         localStorage.setItem("movList", JSON.stringify(movList));
       })
       .catch((err) => console.log(err));
@@ -55,7 +58,14 @@ function SavedMovies({tokenCheck}) {
         submitClick={searchHandle}
       />
       <section className="saved-movies">
-        {isLoading ? <Preloader /> : <MoviesCardList data={filteredAndSearchedMovies} handleLikeClick={handleLikeClick} />}
+        {isLoading ? (
+          <Preloader />
+        ) : (
+          <MoviesCardList
+            data={filteredAndSearchedMovies}
+            handleLikeClick={handleLikeClick}
+          />
+        )}
       </section>
     </main>
   );
