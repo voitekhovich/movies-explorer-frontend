@@ -15,11 +15,13 @@ import {
   MESSAGE_INCORRECT_USER_DATA,
   namePattern,
   PROFILE_SUBMIT_TITLE,
+  PROFILE_UPDATE_TITLE,
   PROFILE_WELCOM_TITLE,
 } from "../../../utils/constants";
 
 function Profile(props) {
   const [isLoading, setIsLoading] = useState(false);
+  const [isFormValid, setIsFormValid] = useState(false);
   const [error, setError] = useState("");
   const { currentUser, setCurrentUser } = useContext(AuthContext);
 
@@ -50,6 +52,7 @@ function Profile(props) {
       .setUserInfo(values["name"], values["email"])
       .then((user) => {
         setCurrentUser(user);
+        setError(PROFILE_UPDATE_TITLE);
       })
       .catch((err) => {
         switch (err) {
@@ -65,6 +68,13 @@ function Profile(props) {
       })
       .finally(() => setIsLoading(false));
   };
+
+  React.useEffect(() => {
+    if (values.email === currentUser.email && values.name === currentUser.name)
+      setIsFormValid(false);
+    else setIsFormValid(true);
+    console.log(isFormValid);
+  }, [values]);
 
   React.useEffect(() => {
     setValues((values) => {
@@ -129,7 +139,7 @@ function Profile(props) {
 
           <button
             className="profile__button profile__submit link-hover"
-            disabled={!isValid || isLoading}
+            disabled={!isFormValid || !isValid || isLoading}
           >
             {PROFILE_SUBMIT_TITLE}
           </button>

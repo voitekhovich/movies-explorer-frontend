@@ -31,6 +31,7 @@ export const PAGE_NOT_BACK_BUTTON_TITLE = "Назад";
 
 export const PROFILE_WELCOM_TITLE = "Привет";
 export const PROFILE_SUBMIT_TITLE = "Редактировать";
+export const PROFILE_UPDATE_TITLE = "Данные профиля обновлены";
 
 export const MOVIES_CARD_DURATION_HOURS = "ч";
 export const MOVIES_CARD_DURATION_MINUTES = "м";
