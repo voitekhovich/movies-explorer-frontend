@@ -47,7 +47,7 @@ export default function App() {
       localStorage.clear();
       setCurrentUser({});
       setIsLoggedIn(false);
-      history.push("/signin");
+      history.push("/");
     });
   };
 
