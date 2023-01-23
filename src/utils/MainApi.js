@@ -1,4 +1,4 @@
-import { MAIN_API_URL, BEATFILM_API_URL } from "./constants.js";
+import { MAIN_API_URL } from "./constants.js";
 
 class MainApi {
   constructor({ baseUrl }) {
