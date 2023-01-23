@@ -10,6 +10,7 @@ import { useCountMoviesItems } from "../../../hooks/useCountMoviesItems";
 import {
   BEATFILM_API_URL,
   GET_DATA_ERROR,
+  MORE_CARDS_BUTTON__TITLE,
   NEED_KEY_WORD,
 } from "../../../utils/constants";
 
@@ -133,7 +134,7 @@ function Movies({ tokenCheck }) {
                 type="button"
                 onClick={moreCardsHadle}
               >
-                Ещё
+                {MORE_CARDS_BUTTON__TITLE}
               </button>
             )}
           </React.Fragment>

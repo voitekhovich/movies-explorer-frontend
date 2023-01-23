@@ -46,5 +46,6 @@ export const LINK_PROFILE_TITLE = "Аккаунт";
 export const LINK_SIGNUP_TITLE = "Регистрация";
 export const LINK_SIGNIN_TITLE = "Войти";
 export const LINK_SIGNOUT_TITLE = "Выйти из аккаунта";
+export const MORE_CARDS_BUTTON__TITLE = "Ещё";
 
 export const FILTER_CHECKBOX_TITLE = "Короткометражки";
