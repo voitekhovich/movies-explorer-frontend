@@ -1,52 +1,111 @@
-import { MAIN_API_URL } from "./constants";
+import { MAIN_API_URL, BEATFILM_API_URL } from "./constants.js";
 
-const request = ({ url, method = "POST", token, data }) => {
-  return fetch(`${MAIN_API_URL}${url}`, {
-    method,
-    credentials: 'include',
-    headers: {
-      "Content-Type": "application/json",
-      ...(!!token && { Authorization: `Bearer ${token}` }),
-    },
-    ...(!!data && { body: JSON.stringify(data) }),
-  }).then((res) => {
+class MainApi {
+  constructor({ baseUrl }) {
+    this._baseUrl = baseUrl;
+  }
+
+  _checkResponse(res) {
     if (res.ok) return res.json();
     return Promise.reject(res.status);
-  });
-};
+  }
 
-export const register = (name, email, password) => {
-  return request({
-    url: "/signup",
-    data: { name, email, password },
-  });
-};
+  _request = ({ url, method = "GET", token, data }) => {
+    return fetch(`${MAIN_API_URL}${url}`, {
+      method,
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+        ...(!!token && { Authorization: `Bearer ${token}` }),
+      },
+      ...(!!data && { body: JSON.stringify(data) }),
+    }).then(this._checkResponse);
+  };
 
-export const authorize = (email, password) => {
-  return request({
-    url: "/signin",
-    data: { email, password },
-  });
-};
+  getUserInfo = () => {
+    return this._request({
+      url: "/users/me",
+    });
+  };
 
-export const signout = () => {
-  return request({
-    url: "/signout",
-    // method: "GET",
-  });
-};
+  setUserInfo(name, email) {
+    return this._request({
+      url: "/users/me",
+      method: "PATCH",
+      data: {
+        name,
+        email,
+      },
+    });
+  }
 
-export const getContent = (token) => {
-  return request({
-    url: "/users/me",
-    method: "GET",
-    // token,
-  });
-};
+  register = (name, email, password) => {
+    return this._request({
+      url: "/signup",
+      method: "POST",
+      data: { name, email, password },
+    });
+  };
 
-export const getUserInfo = () => {
-  return this._request({
-    url: "/users/me",
-    method: "GET",
-  });
-};
+  authorize = (email, password) => {
+    return this._request({
+      url: "/signin",
+      method: "POST",
+      data: { email, password },
+    });
+  };
+
+  signout = () => {
+    return this._request({
+      url: "/signout",
+      method: "POST",
+    });
+  };
+
+  getContent = (token) => {
+    return this._request({
+      url: "/users/me",
+      // token,
+    });
+  };
+
+  getInitialCards() {
+    return this._request({
+      url: "/movies",
+    });
+  }
+
+  setLike(card) {
+    return this._request({
+      url: "/movies",
+      method: "POST",
+      data: {
+        country: card.country,
+        director: card.director,
+        duration: card.duration,
+        year: card.year,
+        description: card.description,
+        image: `${BEATFILM_API_URL}${card.image.url}`,
+        trailerLink: card.trailerLink,
+        nameRU: card.nameRU,
+        nameEN: card.nameEN,
+        thumbnail: `${BEATFILM_API_URL}${card.image.formats.thumbnail.url}`,
+        movieId: card.id,
+      },
+    });
+  }
+
+  delLikes(cardId) {
+    return this._request({
+      url: `/movies/${cardId}`,
+      method: "DELETE",
+    });
+  }
+
+  changeLikeCardStatus(card) {
+    if (!card.isLike) return this.setLike(card);
+    return this.delLikes(card.isLike);
+  }
+}
+
+export const mainApi = new MainApi({ baseUrl: MAIN_API_URL });

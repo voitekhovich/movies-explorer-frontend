@@ -2,7 +2,7 @@ import './Profile.css';
 
 import React, { useContext, useState } from 'react';
 import { CurrentUserContext } from '../../../contexts/CurrentUserContext';
-import { api } from '../../../utils/Api';
+import { mainApi } from '../../../utils/MainApi';
 import { useFormAndValidation } from '../../../hooks/useFormAndValidation';
 import Preloader from '../../Preloader/Preloader';
 
@@ -17,7 +17,7 @@ function Profile(props) {
   const handleSubmit = (evt) => {
     evt.preventDefault();
     setIsLoading(true);
-    return api.setUserInfo(values['name'], values['email'])
+    return mainApi.setUserInfo(values['name'], values['email'])
       .then((user) => {
         setCurrentUser(user);
       })

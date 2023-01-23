@@ -5,7 +5,7 @@ import MoviesCardList from "../../MoviesCardList/MoviesCardList";
 import SearchForm from "../../SearchForm/SearchForm";
 import { moviesApi } from "../../../utils/MoviesApi";
 import Preloader from "../../Preloader/Preloader";
-import { api } from "../../../utils/Api";
+import { mainApi } from "../../../utils/MainApi";
 import { useMoviesCountItems } from "../../../hooks/useMoviesCountItems";
 
 function Movies() {
@@ -13,9 +13,7 @@ function Movies() {
   const [infoMessage, setInfoMessage] = useState('');
   const [movList, setMovList] = useState([]);
   const [filter, setFilter] = useState({ query: "", checkBox: false });
-
   const [counter, setCounter] = useState(0);
-
   const [resultMoviesList, moreCardsState] = useMoviesCountItems(
     movList,
     filter.checkBox,
@@ -25,11 +23,10 @@ function Movies() {
 
   const moreCardsHadle = () => {
     setCounter((counter) => counter + 1);
-    console.log(counter);
   };
 
   const loadFirstData = () => {
-    return Promise.all([moviesApi.getAllData(), api.getInitialCards()]).then(
+    return Promise.all([moviesApi.getAllData(), mainApi.getInitialCards()]).then(
       ([moviesData, savedCards]) => {
         return moviesData.map((item) => {
           const sCard = savedCards.find((i) => i.movieId === item.id);
@@ -89,7 +86,7 @@ function Movies() {
   }, [resultMoviesList]);
 
   const handleLikeClick = (card) => {
-    api
+    mainApi
       .changeLikeCardStatus(card)
       .then((newCard) => {
         setMovList((state) =>

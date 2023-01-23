@@ -2,7 +2,7 @@ import "./SavedMovies.css";
 
 import React, { useState } from "react";
 import MoviesCardList from "../../MoviesCardList/MoviesCardList";
-import { api } from "../../../utils/Api";
+import { mainApi } from "../../../utils/MainApi";
 import SearchForm from "../../SearchForm/SearchForm";
 import Preloader from "../../Preloader/Preloader";
 import { useMovies } from "../../../hooks/useMovies";
@@ -20,7 +20,7 @@ function SavedMovies() {
   };
 
   const handleLikeClick = (card) => {
-    api
+    mainApi
       .delLikes(card._id)
       .then((result) => {
         setSavedMovies((state) => state.filter((c) => c._id !== card._id));
@@ -37,7 +37,7 @@ function SavedMovies() {
 
   React.useEffect(() => {
     setIsLoading(true);
-    api
+    mainApi
       .getInitialCards()
       .then((movies) => {
         setSavedMovies(movies);

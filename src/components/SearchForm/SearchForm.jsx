@@ -1,19 +1,21 @@
 import "./SearchForm.css";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
-import { useForm } from "../../hooks/useForm";
 import { useFormAndValidation } from "../../hooks/useFormAndValidation";
+import { NEED_KEY_WORD } from "../../utils/constants";
 
 function SearchForm(props) {
   const { filter, setFilter, submitClick } = props;
-
-  // const { values, setValues, handleChange } = useForm({ search: "" });
-  const { values, setValues, errors, handleChange } = useFormAndValidation();
+  // const [ isError, setIsError ] = useState(false);
+  const { values, setValues, handleChange, isValid } = useFormAndValidation();
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    submitClick(values["search"]);
+    // if (isValid) {
+      submitClick(values["search"]);
+      // setIsError(false);
+    // } else setIsError(true);
   };
 
   useEffect(() => {
@@ -22,7 +24,7 @@ function SearchForm(props) {
 
   return (
     <div className="search-form">
-      <form className="search-form__input-box">
+      <form className="search-form__input-box" onSubmit={handleSubmit} noValidate>
         <div className="search-form__icon"></div>
         <input
           className="search-form__input"
@@ -32,15 +34,14 @@ function SearchForm(props) {
           placeholder="Фильм"
           value={values["search"] || ""}
           onChange={handleChange}
-          minLength={1}
+          required
         />
         <button
           className="search-form__button button-hover"
-          onClick={handleSubmit}
+          type="submit"
         ></button>
       </form>
-      {/* { errors['search'] ? <span className="entry-field__input-error">{errors['search']}</span> : ''} */}
-      { <span>{errors['search']}</span> }
+      {/* { isError ? <span className="search-form__input-error">{NEED_KEY_WORD}</span> : ''} */}
       <FilterCheckbox
         className="search-form__check-box"
         filter={filter}

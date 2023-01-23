@@ -11,7 +11,6 @@ export const useFilteredMovies = (movies, filter) => {
   return filteredMovies;
 };
 
-
 export const useMovies = (movies, filter, query) => {
   const filteredMovies = useFilteredMovies(movies, filter);
 
@@ -24,7 +23,6 @@ export const useMovies = (movies, filter, query) => {
   return filteredMoviesAndSearch;
 };
 
-
 export const useMoviesCountItems = (movies, filter, query, counter) => {
 
   const [ nowCountItems, setNowCountItems ] = useState(0);
@@ -34,13 +32,10 @@ export const useMoviesCountItems = (movies, filter, query, counter) => {
   const windowWidth = useWindowSize();
 
   const firsHandler = () => {
-    console.log(`1. windowWidth: ${windowWidth}`);
     if (windowWidth < 633) return setNowCountItems(3);
     if (windowWidth < 1137) return setNowCountItems(4);
     setNowCountItems(6);
   }
-
-  //  ОБНУЛИТЬ КАУНТЕР ПРИ ПОИСКЕ, ДЛЯ СБРОСА КОЛИЧЕСТВА КАРТОЧЕК
 
   useEffect(() => {
     firsHandler();
@@ -52,8 +47,6 @@ export const useMoviesCountItems = (movies, filter, query, counter) => {
       return;
     }
     const pers = nowCountItems % moreCardsCount;
-    console.log(`3. counter: ${counter}`);    
-    console.log(`4. nowCountItems % moreCardsCount: ${nowCountItems} % ${moreCardsCount} = ${nowCountItems % moreCardsCount}`);
 
     if ( pers > 0) {
       setNowCountItems(nowCountItems => nowCountItems + moreCardsCount - pers + moreCardsCount);
@@ -64,9 +57,7 @@ export const useMoviesCountItems = (movies, filter, query, counter) => {
   }, [counter])
 
   const resultMoviesList = useMemo(() => {
-    console.log(`2. nowCountItems: ${nowCountItems}`);
     const result = filteredMovies.slice(0, nowCountItems);
-    console.log(filteredMovies.length);
     result.length < filteredMovies.length ? setMoreCardsState(true) : setMoreCardsState(false);
     return result;
   }, [filter, query, nowCountItems]);

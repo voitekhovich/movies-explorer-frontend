@@ -11,8 +11,8 @@ import Register from "../pages/Register/Register";
 import PageNotFound from "../pages/PageNotFound/PageNotFound";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
-import * as auth from "../../utils/MainApi";
-import { api } from "../../utils/Api";
+// import * as auth from "../../utils/MainApi";
+import { mainApi } from "../../utils/MainApi";
 import ProtectedRoute from "../ProtectedRoute";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
@@ -24,14 +24,14 @@ export default function App() {
   // const [isRegistered, setIsRegistered] = React.useState(false);
 
   const handleLogin = (email, password) => {
-    return auth.authorize(email, password).then((user) => {
+    return mainApi.authorize(email, password).then((user) => {
       setCurrentUser(user);
       setIsLoggedIn(true);
     });
   };
 
   const handleRegister = (name, email, password) => {
-    return auth
+    return mainApi
       .register(name, email, password)
       .then(() => {
         // setIsRegistered(true);
@@ -44,7 +44,7 @@ export default function App() {
   };
 
   const handleSignOut = () => {
-    auth.signout().then((data) => {
+    mainApi.signout().then((data) => {
       localStorage.removeItem("jwt");
       setIsLoggedIn(false);
       history.push("/signin");
@@ -52,7 +52,7 @@ export default function App() {
   };
 
   const tokenCheck = () => {
-    api
+    mainApi
       .getUserInfo()
       .then((user) => {
         setCurrentUser(user);

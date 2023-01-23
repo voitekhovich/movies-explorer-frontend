@@ -1,30 +1,30 @@
-import { BEATFILM_API_URL, headers } from './constants';
+import { BEATFILM_API_URL } from "./constants";
 
 class MoviesApi {
-  constructor({ baseUrl, headers }) {
+  constructor({ baseUrl }) {
     this._baseUrl = baseUrl;
-    this._headers = headers;
   }
 
   _checkResponse(res) {
     if (res.ok) return res.json();
     return Promise.reject(res.status);
-    // return Promise.reject(`Ошибка: ${res.status} ${res.statusText}`);
   }
 
-  _request(url, options) {
-    return fetch(this._baseUrl + url, { 
-      // credentials: 'include',
-      method: "GET",
-      ...options,
+  _request({ url, method = "GET" }) {
+    return fetch(this._baseUrl + url, {
+      // credentials: "include",
+      method,
+      headers: {
+        "Content-Type": "application/json",
+      },
     }).then(this._checkResponse);
   }
 
   getAllData() {
-    return this._request("/beatfilm-movies", {
-      headers: this._headers,
+    return this._request({
+      url: "/beatfilm-movies",
     });
   }
 }
 
-export const moviesApi = new MoviesApi({ baseUrl: BEATFILM_API_URL, headers });
+export const moviesApi = new MoviesApi({ baseUrl: BEATFILM_API_URL });

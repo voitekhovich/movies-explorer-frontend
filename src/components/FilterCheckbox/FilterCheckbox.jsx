@@ -3,9 +3,9 @@ import "./FilterCheckbox.css";
 import React from "react";
 import cn from "classnames";
 
-function FilterCheckbox(props, { className }) {
+function FilterCheckbox(props) {
 
-  const {filter, setFilter} = props;
+  const {filter, setFilter, className} = props;
 
   const isChecked = () => {
     setFilter((filter) => ({
