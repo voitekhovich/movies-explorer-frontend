@@ -53,6 +53,11 @@ function SavedMovies({ tokenCheck }) {
       .finally(() => setIsLoading(false));
   }, []);
 
+  React.useEffect(() => {
+    if (filter.query !== "" || filter.checkBox === true)
+      setIsNotFoundTitle(DATA_NOT_FOUND);
+  }, [filter]);
+
   return (
     <main className="main">
       <SearchForm

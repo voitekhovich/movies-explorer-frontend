@@ -59,7 +59,6 @@ function Movies() {
     }
 
     setIsLoading(true);
-    setIsNotFoundTitle(DATA_NOT_FOUND)
 
     if (!movList.length)
       await loadFirstData()
@@ -92,6 +91,11 @@ function Movies() {
     localStorage.setItem("filter", JSON.stringify(filter));
     localStorage.setItem("movList", JSON.stringify(movList));
   }, [resultMoviesList, infoMessage]);
+
+  useEffect(() => {
+    if (filter.query !== "" || filter.checkBox === true)
+      setIsNotFoundTitle(DATA_NOT_FOUND);
+  }, [filter]);
 
   useEffect(() => {
     localStorage.setItem("infoMessage", JSON.stringify(infoMessage));

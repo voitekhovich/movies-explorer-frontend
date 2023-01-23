@@ -46,7 +46,7 @@ function Header({ className, isLoggedIn = true }) {
             <ButtonProfile />
           </div>
           <BurgerButton onClick={handleBurgerClick} />
-          <BurgerNavigation isActive={isBurgerEnable} />
+          <BurgerNavigation isActive={isBurgerEnable} setIsBurgerEnable={setIsBurgerEnable} />
         </React.Fragment>
       )}
     </header>

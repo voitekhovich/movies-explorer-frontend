@@ -1,12 +1,13 @@
 import "./BurgerNavigation.css";
 
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import ButtonProfile from "../elements/ButtonProfile/ButtonProfile";
 import Navigation from "../Navigation/Navigation";
 import { LINK_MAIN_TITLE } from "../../utils/constants";
 
-function BurgerNavigation({ isActive }) {
+function BurgerNavigation({ isActive, setIsBurgerEnable }) {
+  const {pathname} = useLocation();
   const menu = React.useRef();
 
   React.useEffect(() => {
@@ -16,6 +17,10 @@ function BurgerNavigation({ isActive }) {
       menu.current.classList.remove("active");
     }
   }, [isActive]);
+
+  React.useEffect(() => {
+    setIsBurgerEnable(false);
+  }, [pathname])
 
   return (
     <div className="burger-navigation" ref={menu}>

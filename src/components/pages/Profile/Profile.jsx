@@ -53,6 +53,7 @@ function Profile(props) {
       .then((user) => {
         setCurrentUser(user);
         setError(PROFILE_UPDATE_TITLE);
+        setIsFormValid(false)
       })
       .catch((err) => {
         switch (err) {
