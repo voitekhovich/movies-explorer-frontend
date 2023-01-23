@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import validator from "validator";
 import LoginForm from "../../LoginForm/LoginForm";
 import EntryField from "../../EntryField/EntryField";
 import { useFormAndValidation } from "../../../hooks/useFormAndValidation";
@@ -13,13 +14,29 @@ import {
   FORM_EMAIL_INPUT_PLACEHOLDER,
   FORM_PASSWD_INPUT_PLACEHOLDER,
   LINK_SIGNIN_TITLE,
+  FORM_EMAIL_INPUT_ERROR_HANDLER,
 } from "../../../utils/constants";
 
 function Register(props) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const { values, isValid, errors, handleChange } = useFormAndValidation();
+  const {
+    values,
+    isValid,
+    setIsValid,
+    errors,
+    setErrors,
+    handleChange,
+  } = useFormAndValidation();
 
+  const handleEmailChange = (evt) => {
+    handleChange(evt);
+    if (validator.isEmail(evt.target.value)) setIsValid(true);
+    else {
+      setIsValid(false);
+      setErrors({ ...errors, email: FORM_EMAIL_INPUT_ERROR_HANDLER });
+    }
+  };
   const handleSubmit = (evt) => {
     evt.preventDefault();
     setIsLoading(true);
@@ -70,7 +87,7 @@ function Register(props) {
         placeholder={FORM_EMAIL_INPUT_PLACEHOLDER}
         value={values["email"] || ""}
         errors={errors}
-        onChange={handleChange}
+        onChange={handleEmailChange}
       />
       <EntryField
         id="password"

@@ -1,11 +1,13 @@
 import "./Profile.css";
 
 import React, { useContext, useState } from "react";
+import validator from "validator";
 import { AuthContext } from "../../../contexts/AuthContext";
 import { mainApi } from "../../../utils/MainApi";
 import { useFormAndValidation } from "../../../hooks/useFormAndValidation";
 import Preloader from "../../Preloader/Preloader";
 import {
+  FORM_EMAIL_INPUT_ERROR_HANDLER,
   FORM_EMAIL_INPUT_PLACEHOLDER,
   FORM_NAME_INPUT_PLACEHOLDER,
   LINK_SIGNOUT_TITLE,
@@ -19,9 +21,26 @@ import {
 function Profile(props) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const { values, setValues, isValid, errors, handleChange } =
-    useFormAndValidation();
   const { currentUser, setCurrentUser } = useContext(AuthContext);
+
+  const {
+    values,
+    setValues,
+    isValid,
+    setIsValid,
+    errors,
+    setErrors,
+    handleChange,
+  } = useFormAndValidation();
+
+  const handleEmailChange = (evt) => {
+    handleChange(evt);
+    if (validator.isEmail(evt.target.value)) setIsValid(true);
+    else {
+      setIsValid(false);
+      setErrors({ ...errors, email: FORM_EMAIL_INPUT_ERROR_HANDLER });
+    }
+  };
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
@@ -94,7 +113,7 @@ function Profile(props) {
               placeholder={FORM_EMAIL_INPUT_PLACEHOLDER}
               value={values["email"] || ""}
               errors={errors}
-              onChange={handleChange}
+              onChange={handleEmailChange}
               required
             />
           </label>

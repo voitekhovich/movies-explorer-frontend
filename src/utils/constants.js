@@ -38,6 +38,7 @@ export const MOVIES_CARD_DURATION_MINUTES = "м";
 export const FORM_NAME_INPUT_PLACEHOLDER = "Имя";
 export const FORM_EMAIL_INPUT_PLACEHOLDER = "E-mail";
 export const FORM_PASSWD_INPUT_PLACEHOLDER = "Пароль";
+export const FORM_EMAIL_INPUT_ERROR_HANDLER = "E-mail указан не правильно";
 
 export const LINK_MAIN_TITLE = "Главная";
 export const LINK_MOVIES_TITLE = "Фильмы";
