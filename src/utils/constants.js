@@ -1,7 +1,7 @@
-export const { MAIN_API_URL = 'http://localhost:3000' } = process.env;
+const { REACT_APP_BASE_URL = 'http://localhost:3000' } = process.env;
 
 export const BEATFILM_API_URL = 'https://api.nomoreparties.co';
-// export const MAIN_API_URL = 'http://localhost:3001';
+export const MAIN_API_URL = REACT_APP_BASE_URL;
 
 export const namePattern = { 
   pattern: '^[A-Za-zА-Яа-яЁё\\s-]+$',
