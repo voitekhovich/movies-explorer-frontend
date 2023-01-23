@@ -17,6 +17,7 @@ function Profile(props) {
   const handleSubmit = (evt) => {
     evt.preventDefault();
     setIsLoading(true);
+    setError('');
     return mainApi
       .setUserInfo(values["name"], values["email"])
       .then((user) => {

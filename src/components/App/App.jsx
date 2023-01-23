@@ -26,6 +26,7 @@ export default function App() {
     return mainApi.authorize(email, password).then((user) => {
       localStorage.clear();
       setIsLoggedIn(true);
+      tokenCheck();
       history.push("/movies");
     });
   };
@@ -34,7 +35,7 @@ export default function App() {
     return mainApi
       .register(name, email, password)
       .then(() => {
-        history.push("/signin");
+        handleLogin(email, password);
       })
       .catch((err) => {
         return Promise.reject(err);
@@ -44,6 +45,7 @@ export default function App() {
   const handleSignOut = () => {
     mainApi.signout().then((data) => {
       localStorage.clear();
+      setCurrentUser({})
       setIsLoggedIn(false);
       history.push("/signin");
     });
@@ -73,12 +75,9 @@ export default function App() {
   };
 
   React.useEffect(() => {
+    setIsLoggedIn(false);
     tokenCheck();
   }, []);
-
-  React.useEffect(() => {
-    tokenCheck();
-  }, [isLoggedIn]);
 
   if (isLoading) {
     return <Preloader />;
