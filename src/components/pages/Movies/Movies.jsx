@@ -55,7 +55,12 @@ function Movies() {
       data = await loadFirstData().then((data) => {
         setMovList(data);
         return data;
-      });
+      })
+      .catch((err) => console.log(err))
+      .finally(() => {
+        setIsLoading(false);
+        return
+      })
     else data = movList;
 
     let result = filterData(data, filter.query);
