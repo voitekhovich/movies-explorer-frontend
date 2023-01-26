@@ -11,11 +11,7 @@ function SearchForm(props) {
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    setFilter((filter) => ({
-      ...filter,
-      query: values["search"],
-    }));
-    submitClick(filter);
+    submitClick(values["search"]);
   };
 
   useEffect(() => {

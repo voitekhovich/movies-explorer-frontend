@@ -13,6 +13,7 @@ function MoviesCardList(props) {
           key={card.id ? card.id : card._id}
           card={card}
           handleLikeClick={props.handleLikeClick}
+          likeStyle={card.id ? true : false}
         />
       ))}
     </ul>

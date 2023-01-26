@@ -7,16 +7,16 @@ import { moviesApi } from "../../../utils/MoviesApi";
 import { DATA_NOT_FOUND } from "../../../utils/constants";
 import Preloader from "../../Preloader/Preloader";
 import { api } from "../../../utils/Api";
+import { useMovies } from "../../../hooks/useMovies";
 
 function Movies() {
   const [isLoading, setIsLoading] = useState(false);
   const [infoMessage, setInfoMessage] = useState(DATA_NOT_FOUND);
-
   const [isVisibBtn, setIsVisibBtn] = useState(true);
-
   const [movList, setMovList] = useState([]);
-  const [resList, setResList] = useState([]);
   const [filter, setFilter] = useState({ query: "", checkBox: false });
+
+  const filteredAndSearchedMovies = useMovies(movList, filter.checkBox, filter.query);
 
   const loadFirstData = () => {
     return Promise.all([moviesApi.getAllData(), api.getInitialCards()]).then(
@@ -31,51 +31,34 @@ function Movies() {
         });
       }
     );
-  };
+  };;
 
-  const filterData = (data, query) => {
-    return data.filter((item) =>
-      item.nameRU.toLowerCase().includes(query.toLowerCase())
-    );
-  };
-
-  const checkData = (data) => {
-    return data.filter((item) => item.duration <= 40 && item);
-  };
-
-  async function handleSearchClick() {
-    if (filter.query === "") {
+  async function handleSearchClick(query) {
+    if (query === "") {
       return console.log("Нужно ввести ключевое слово");
     }
 
     setIsLoading(true);
 
-    let data = [];
+    setFilter((filter) => ({...filter, query }));
+
     if (!movList.length)
-      data = await loadFirstData().then((data) => {
-        setMovList(data);
-        return data;
-      })
-      .catch((err) => console.log(err))
-      .finally(() => {
-        setIsLoading(false);
-        return
-      })
-    else data = movList;
-
-    let result = filterData(data, filter.query);
-    if (filter.checkBox) result = checkData(result);
-
-    setResList(result);
-
-    localStorage.setItem("filter", JSON.stringify(filter));
-    localStorage.setItem("resList", JSON.stringify(result));
+      await loadFirstData()
+        .then((data) => {
+          setMovList(data);
+          return data;
+        })
+        .catch((err) => console.log(err))
+        .finally(() => {
+          setIsLoading(false);
+          return;
+        });
 
     setIsLoading(false);
   }
 
   useEffect(() => {
-    setResList(JSON.parse(localStorage.getItem("resList")) || []);
+    setMovList(JSON.parse(localStorage.getItem("movList")) || []);
     setFilter(
       JSON.parse(localStorage.getItem("filter")) || {
         query: "",
@@ -84,12 +67,24 @@ function Movies() {
     );
   }, []);
 
+  useEffect(() => {
+    localStorage.setItem("filter", JSON.stringify(filter));
+    localStorage.setItem("movList", JSON.stringify(movList));
+  }, [ filteredAndSearchedMovies ]);
+
   const handleLikeClick = (card) => {
     api
       .changeLikeCardStatus(card)
       .then((newCard) => {
-        if (!card.isLike) card.isLike = newCard._id;
-        else delete card.isLike;
+        setMovList((state) =>
+          state.map((item) => {
+            if (item.id === newCard.movieId) item.isLike
+              ? delete item.isLike
+              : (item.isLike = newCard._id);
+              return item;
+          })
+        );
+
       })
       .catch((err) => console.log(err));
   };
@@ -107,7 +102,7 @@ function Movies() {
           <Preloader />
         ) : (
           <MoviesCardList
-            data={resList}
+            data={filteredAndSearchedMovies}
             infoMessage={infoMessage}
             handleLikeClick={handleLikeClick}
           />

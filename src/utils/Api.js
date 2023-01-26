@@ -74,7 +74,7 @@ class Api {
   }
 
   setLike(card) {
-
+    console.log('like');
     return this._request("/movies", {
       method: "POST",
       headers: this._headers,
@@ -96,6 +96,7 @@ class Api {
   }
 
   delLikes(cardId) {
+    console.log('del');
     return this._request(`/movies/${cardId}`, {
       method: "DELETE",
       headers: this._headers,
@@ -103,7 +104,6 @@ class Api {
   }
 
   changeLikeCardStatus(card) {
-    console.log(card);
     if (!card.isLike) return this.setLike(card);
     return this.delLikes(card.isLike);
   }

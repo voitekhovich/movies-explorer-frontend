@@ -1,23 +1,19 @@
-import './Like.css';
+import "./Like.css";
 
-import React, { useEffect, useState } from 'react';
+import React from "react";
 
 function Like(props) {
-
-  // const [ isLike, setIsLike ] = useState(false);
+  const { card, likeStyle, handleLikeClick } = props;
 
   const handleClick = () => {
-    // setIsLike(!isLike);
-    props.handleLikeClick(props.card)
-  }
-
-  useEffect(() => {
-    // if (props.card.isLike) setIsLike(true);
-  }, [props.card.isLike])
+    handleLikeClick(card);
+  };
 
   return (
     <button
-      className={ props.card.isLike? 'like like_active' : 'like'}
+      className={
+        likeStyle ? (card.isLike ? "like like_active" : "like") : "like like_delete"
+      }
       type="button"
       aria-label="Нравится"
       onClick={handleClick}
