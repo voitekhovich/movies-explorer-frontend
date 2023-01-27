@@ -39,6 +39,8 @@ export const useMoviesCountItems = (movies, filter, query, counter) => {
     setNowCountItems(6);
   }
 
+  //  ОБНУЛИТЬ КАУНТЕР ПРИ ПОИСКЕ, ДЛЯ СБРОСА КОЛИЧЕСТВА КАРТОЧЕК
+
   useEffect(() => {
     firsHandler();
   }, [])
