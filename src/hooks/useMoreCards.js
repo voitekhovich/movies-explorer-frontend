@@ -1,29 +1,26 @@
 import { useEffect, useMemo, useState } from "react";
 
 export const useWindowSize = () => {
-  
-  const [windowWidth, setWindowWidth] = useState(0);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   useEffect(() => {
     const getwindowSize = () => {
-      setWindowWidth(window.innerWidth)
-      // console.log(window.innerWidth)
+      setWindowWidth(window.innerWidth);
     };
 
-    getwindowSize();
-
-    window.addEventListener('resize', () => setTimeout(getwindowSize, 500));
+    window.addEventListener("resize", () => setTimeout(getwindowSize, 500));
 
     return () => {
-      window.removeEventListener('resize', () => setTimeout(getwindowSize, 500));
+      window.removeEventListener("resize", () =>
+        setTimeout(getwindowSize, 500)
+      );
     };
   }, []);
 
   return windowWidth;
-}
+};
 
 export const useMoreCards = () => {
-
   const windowWidth = useWindowSize();
 
   const getMoreCardsCount = useMemo(() => {
@@ -33,4 +30,4 @@ export const useMoreCards = () => {
   }, [windowWidth]);
 
   return getMoreCardsCount;
-}
+};

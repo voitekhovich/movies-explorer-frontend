@@ -8,6 +8,8 @@ import { DATA_NOT_FOUND } from "../../../utils/constants";
 import Preloader from "../../Preloader/Preloader";
 import { api } from "../../../utils/Api";
 import { useMovies } from "../../../hooks/useMovies";
+import { useMoviesCountItems } from "../../../hooks/useMoviesCountItems";
+import { useMoreCards, useWindowSize } from "../../../hooks/useMoreCards";
 
 function Movies() {
   const [isLoading, setIsLoading] = useState(false);
@@ -16,7 +18,39 @@ function Movies() {
   const [movList, setMovList] = useState([]);
   const [filter, setFilter] = useState({ query: "", checkBox: false });
 
-  const filteredAndSearchedMovies = useMovies(movList, filter.checkBox, filter.query);
+  // const windowWidth = useWindowSize();
+  // const moreCardsCount = useMoreCards();
+  const [counter, setCounter ] = useState(0);
+
+  // const newListsMovies = useMoviesCountItems(
+  //   movList,
+  //   filter.checkBox,
+  //   filter.query
+  // );
+
+  // useEffect(() => {
+  //   console.log(windowWidth);
+  //   console.log(moreCardsCount);
+  //   console.log(newListsMovies);
+  // }, [newListsMovies]);
+
+  // const filteredAndSearchedMovies = useMovies(
+  //   movList,
+  //   filter.checkBox,
+  //   filter.query
+  // );
+
+  const filteredAndSearchedMovies = useMoviesCountItems(
+    movList,
+    filter.checkBox,
+    filter.query,
+    counter
+  );
+
+  const moreCardsHadle = () => {
+    setCounter(counter => counter+1);
+    console.log(counter);
+  }
 
   const loadFirstData = () => {
     return Promise.all([moviesApi.getAllData(), api.getInitialCards()]).then(
@@ -31,7 +65,7 @@ function Movies() {
         });
       }
     );
-  };;
+  };
 
   async function handleSearchClick(query) {
     if (query === "") {
@@ -39,8 +73,8 @@ function Movies() {
     }
 
     setIsLoading(true);
-
-    setFilter((filter) => ({...filter, query }));
+    setCounter(0);
+    setFilter((filter) => ({ ...filter, query }));
 
     if (!movList.length)
       await loadFirstData()
@@ -70,7 +104,7 @@ function Movies() {
   useEffect(() => {
     localStorage.setItem("filter", JSON.stringify(filter));
     localStorage.setItem("movList", JSON.stringify(movList));
-  }, [ filteredAndSearchedMovies ]);
+  }, [filteredAndSearchedMovies]);
 
   const handleLikeClick = (card) => {
     api
@@ -78,13 +112,11 @@ function Movies() {
       .then((newCard) => {
         setMovList((state) =>
           state.map((item) => {
-            if (item.id === newCard.movieId) item.isLike
-              ? delete item.isLike
-              : (item.isLike = newCard._id);
-              return item;
+            if (item.id === newCard.movieId)
+              item.isLike ? delete item.isLike : (item.isLike = newCard._id);
+            return item;
           })
         );
-
       })
       .catch((err) => console.log(err));
   };
@@ -109,7 +141,7 @@ function Movies() {
         )}
 
         {isVisibBtn ? (
-          <button className="movies__more button-hover" type="button">
+          <button className="movies__more button-hover" type="button" onClick={moreCardsHadle}>
             Ещё
           </button>
         ) : (
