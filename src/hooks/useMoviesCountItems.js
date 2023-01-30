@@ -28,6 +28,7 @@ export const useMovies = (movies, filter, query) => {
 export const useMoviesCountItems = (movies, filter, query, counter) => {
 
   const [ nowCountItems, setNowCountItems ] = useState(0);
+  const [ moreCardsState, setMoreCardsState ] = useState(false);
   const filteredMovies = useMovies(movies, filter, query);
   const moreCardsCount = useMoreCards();
   const windowWidth = useWindowSize();
@@ -46,7 +47,10 @@ export const useMoviesCountItems = (movies, filter, query, counter) => {
   }, [])
 
   useEffect(() => {
-    if (counter == 0) return;
+    if (counter === 0) {
+      firsHandler();
+      return;
+    }
     const pers = nowCountItems % moreCardsCount;
     console.log(`3. counter: ${counter}`);    
     console.log(`4. nowCountItems % moreCardsCount: ${nowCountItems} % ${moreCardsCount} = ${nowCountItems % moreCardsCount}`);
@@ -61,8 +65,11 @@ export const useMoviesCountItems = (movies, filter, query, counter) => {
 
   const resultMoviesList = useMemo(() => {
     console.log(`2. nowCountItems: ${nowCountItems}`);
-    return filteredMovies.slice(0, nowCountItems);
+    const result = filteredMovies.slice(0, nowCountItems);
+    console.log(filteredMovies.length);
+    result.length < filteredMovies.length ? setMoreCardsState(true) : setMoreCardsState(false);
+    return result;
   }, [filter, query, nowCountItems]);
 
-  return resultMoviesList;
+  return [ resultMoviesList, moreCardsState ];
 };

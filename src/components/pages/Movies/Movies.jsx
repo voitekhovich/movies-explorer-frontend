@@ -4,43 +4,19 @@ import React, { useEffect, useState } from "react";
 import MoviesCardList from "../../MoviesCardList/MoviesCardList";
 import SearchForm from "../../SearchForm/SearchForm";
 import { moviesApi } from "../../../utils/MoviesApi";
-import { DATA_NOT_FOUND } from "../../../utils/constants";
 import Preloader from "../../Preloader/Preloader";
 import { api } from "../../../utils/Api";
-import { useMovies } from "../../../hooks/useMovies";
 import { useMoviesCountItems } from "../../../hooks/useMoviesCountItems";
-import { useMoreCards, useWindowSize } from "../../../hooks/useMoreCards";
 
 function Movies() {
   const [isLoading, setIsLoading] = useState(false);
-  const [infoMessage, setInfoMessage] = useState(DATA_NOT_FOUND);
-  const [isVisibBtn, setIsVisibBtn] = useState(true);
+  const [infoMessage, setInfoMessage] = useState('');
   const [movList, setMovList] = useState([]);
   const [filter, setFilter] = useState({ query: "", checkBox: false });
 
-  // const windowWidth = useWindowSize();
-  // const moreCardsCount = useMoreCards();
-  const [counter, setCounter ] = useState(0);
+  const [counter, setCounter] = useState(0);
 
-  // const newListsMovies = useMoviesCountItems(
-  //   movList,
-  //   filter.checkBox,
-  //   filter.query
-  // );
-
-  // useEffect(() => {
-  //   console.log(windowWidth);
-  //   console.log(moreCardsCount);
-  //   console.log(newListsMovies);
-  // }, [newListsMovies]);
-
-  // const filteredAndSearchedMovies = useMovies(
-  //   movList,
-  //   filter.checkBox,
-  //   filter.query
-  // );
-
-  const filteredAndSearchedMovies = useMoviesCountItems(
+  const [resultMoviesList, moreCardsState] = useMoviesCountItems(
     movList,
     filter.checkBox,
     filter.query,
@@ -48,9 +24,9 @@ function Movies() {
   );
 
   const moreCardsHadle = () => {
-    setCounter(counter => counter+1);
+    setCounter((counter) => counter + 1);
     console.log(counter);
-  }
+  };
 
   const loadFirstData = () => {
     return Promise.all([moviesApi.getAllData(), api.getInitialCards()]).then(
@@ -68,7 +44,10 @@ function Movies() {
   };
 
   async function handleSearchClick(query) {
+    setInfoMessage('');
+
     if (query === "") {
+      setInfoMessage("Нужно ввести ключевое слово");
       return console.log("Нужно ввести ключевое слово");
     }
 
@@ -82,7 +61,10 @@ function Movies() {
           setMovList(data);
           return data;
         })
-        .catch((err) => console.log(err))
+        .catch((err) => {
+          setInfoMessage(err);
+          console.log(err);
+        })
         .finally(() => {
           setIsLoading(false);
           return;
@@ -104,7 +86,7 @@ function Movies() {
   useEffect(() => {
     localStorage.setItem("filter", JSON.stringify(filter));
     localStorage.setItem("movList", JSON.stringify(movList));
-  }, [filteredAndSearchedMovies]);
+  }, [resultMoviesList]);
 
   const handleLikeClick = (card) => {
     api
@@ -130,18 +112,23 @@ function Movies() {
       />
 
       <section className="movies">
+        {infoMessage && <p className="movies__info-message">{infoMessage}</p>}
+
         {isLoading ? (
           <Preloader />
         ) : (
           <MoviesCardList
-            data={filteredAndSearchedMovies}
-            infoMessage={infoMessage}
+            data={resultMoviesList}
             handleLikeClick={handleLikeClick}
           />
         )}
 
-        {isVisibBtn ? (
-          <button className="movies__more button-hover" type="button" onClick={moreCardsHadle}>
+        {moreCardsState ? (
+          <button
+            className="movies__more button-hover"
+            type="button"
+            onClick={moreCardsHadle}
+          >
             Ещё
           </button>
         ) : (

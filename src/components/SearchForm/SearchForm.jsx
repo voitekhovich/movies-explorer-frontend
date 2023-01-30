@@ -3,11 +3,13 @@ import "./SearchForm.css";
 import React, { useEffect } from "react";
 import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 import { useForm } from "../../hooks/useForm";
+import { useFormAndValidation } from "../../hooks/useFormAndValidation";
 
 function SearchForm(props) {
   const { filter, setFilter, submitClick } = props;
 
-  const { values, setValues, handleChange } = useForm({ search: "" });
+  // const { values, setValues, handleChange } = useForm({ search: "" });
+  const { values, setValues, errors, handleChange } = useFormAndValidation();
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
@@ -30,12 +32,15 @@ function SearchForm(props) {
           placeholder="Фильм"
           value={values["search"] || ""}
           onChange={handleChange}
+          minLength={1}
         />
         <button
           className="search-form__button button-hover"
           onClick={handleSubmit}
         ></button>
       </form>
+      {/* { errors['search'] ? <span className="entry-field__input-error">{errors['search']}</span> : ''} */}
+      { <span>{errors['search']}</span> }
       <FilterCheckbox
         className="search-form__check-box"
         filter={filter}
