@@ -11,7 +11,6 @@ import Register from "../pages/Register/Register";
 import PageNotFound from "../pages/PageNotFound/PageNotFound";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
-// import * as auth from "../../utils/MainApi";
 import { mainApi } from "../../utils/MainApi";
 import ProtectedRoute from "../ProtectedRoute";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
@@ -21,12 +20,12 @@ export default function App() {
   const [currentUser, setCurrentUser] = React.useState({});
   const history = useHistory();
 
-  // const [isRegistered, setIsRegistered] = React.useState(false);
-
+  
   const handleLogin = (email, password) => {
     return mainApi.authorize(email, password).then((user) => {
       setCurrentUser(user);
       setIsLoggedIn(true);
+      localStorage.clear();
     });
   };
 
@@ -34,18 +33,16 @@ export default function App() {
     return mainApi
       .register(name, email, password)
       .then(() => {
-        // setIsRegistered(true);
         history.push("/signin");
       })
       .catch((err) => {
-        // setIsRegistered(false);
         return Promise.reject(err);
       });
   };
 
   const handleSignOut = () => {
     mainApi.signout().then((data) => {
-      localStorage.removeItem("jwt");
+      localStorage.clear();
       setIsLoggedIn(false);
       history.push("/signin");
     });
@@ -57,8 +54,10 @@ export default function App() {
       .then((user) => {
         setCurrentUser(user);
         setIsLoggedIn(true);
+        return true;
       })
       .catch((err) => {
+        setIsLoggedIn(false);
         switch (err) {
           case 401:
             console.log(`${err} - Необходима авторизация`);
@@ -98,20 +97,20 @@ export default function App() {
             <Main />
           </Route>
 
-          <ProtectedRoute loggedIn={isLoggedIn}>
+          <ProtectedRoute loggedIn={isLoggedIn} >
             <Route path="/movies">
               <Header onSignOut={handleSignOut} />
-              <Movies />
+              <Movies tokenCheck={tokenCheck}/>
               <Footer />
             </Route>
             <Route path="/saved-movies">
               <Header onSignOut={handleSignOut} />
-              <SavedMovies />
+              <SavedMovies tokenCheck={tokenCheck}/>
               <Footer />
             </Route>
             <Route path="/profile">
               <Header onSignOut={handleSignOut} />
-              <Profile onSignOut={handleSignOut} />
+              <Profile tokenCheck={tokenCheck} onSignOut={handleSignOut} />
             </Route>
           </ProtectedRoute>
 

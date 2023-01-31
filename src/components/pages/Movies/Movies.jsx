@@ -6,15 +6,16 @@ import SearchForm from "../../SearchForm/SearchForm";
 import { moviesApi } from "../../../utils/MoviesApi";
 import Preloader from "../../Preloader/Preloader";
 import { mainApi } from "../../../utils/MainApi";
-import { useMoviesCountItems } from "../../../hooks/useMoviesCountItems";
+import { useCountMoviesItems } from "../../../hooks/useCountMoviesItems";
+import { GET_DATA_ERROR, NEED_KEY_WORD } from "../../../utils/constants";
 
-function Movies() {
+function Movies({tokenCheck}) {
   const [isLoading, setIsLoading] = useState(false);
-  const [infoMessage, setInfoMessage] = useState('');
+  const [infoMessage, setInfoMessage] = useState("");
   const [movList, setMovList] = useState([]);
   const [filter, setFilter] = useState({ query: "", checkBox: false });
   const [counter, setCounter] = useState(0);
-  const [resultMoviesList, moreCardsState] = useMoviesCountItems(
+  const [resultMoviesList, moreCardsState] = useCountMoviesItems(
     movList,
     filter.checkBox,
     filter.query,
@@ -26,51 +27,48 @@ function Movies() {
   };
 
   const loadFirstData = () => {
-    return Promise.all([moviesApi.getAllData(), mainApi.getInitialCards()]).then(
-      ([moviesData, savedCards]) => {
-        return moviesData.map((item) => {
-          const sCard = savedCards.find((i) => i.movieId === item.id);
-          if (!sCard) return item;
-          return {
-            isLike: sCard._id,
-            ...item,
-          };
-        });
-      }
-    );
+    return Promise.all([
+      moviesApi.getAllData(),
+      mainApi.getInitialCards(),
+    ]).then(([moviesData, savedCards]) => {
+      return moviesData.map((item) => {
+        const sCard = savedCards.find((i) => i.movieId === item.id);
+        if (!sCard) return item;
+        return {
+          isLike: sCard._id,
+          ...item,
+        };
+      });
+    });
   };
 
   async function handleSearchClick(query) {
-    setInfoMessage('');
+    setInfoMessage("");
 
     if (query === "") {
-      setInfoMessage("Нужно ввести ключевое слово");
-      return console.log("Нужно ввести ключевое слово");
+      setInfoMessage(NEED_KEY_WORD);
     }
 
     setIsLoading(true);
-    setCounter(0);
-    setFilter((filter) => ({ ...filter, query }));
 
     if (!movList.length)
       await loadFirstData()
         .then((data) => {
           setMovList(data);
-          return data;
         })
         .catch((err) => {
-          setInfoMessage(err);
+          setInfoMessage(GET_DATA_ERROR);
           console.log(err);
-        })
-        .finally(() => {
-          setIsLoading(false);
-          return;
         });
+
+    setFilter((filter) => ({ ...filter, query }));
+    setCounter(0);
 
     setIsLoading(false);
   }
 
   useEffect(() => {
+    tokenCheck();
     setMovList(JSON.parse(localStorage.getItem("movList")) || []);
     setFilter(
       JSON.parse(localStorage.getItem("filter")) || {
@@ -78,12 +76,17 @@ function Movies() {
         checkBox: false,
       }
     );
+    setInfoMessage(JSON.parse(localStorage.getItem("infoMessage")) || "");
   }, []);
 
   useEffect(() => {
     localStorage.setItem("filter", JSON.stringify(filter));
     localStorage.setItem("movList", JSON.stringify(movList));
-  }, [resultMoviesList]);
+  }, [resultMoviesList, infoMessage]);
+
+  useEffect(() => {
+    localStorage.setItem("infoMessage", JSON.stringify(infoMessage));
+  }, [resultMoviesList, infoMessage]);
 
   const handleLikeClick = (card) => {
     mainApi
@@ -109,10 +112,10 @@ function Movies() {
       />
 
       <section className="movies">
-        {infoMessage && <p className="movies__info-message">{infoMessage}</p>}
-
         {isLoading ? (
           <Preloader />
+        ) : infoMessage ? (
+          <p className="movies__info-message">{infoMessage}</p>
         ) : (
           <MoviesCardList
             data={resultMoviesList}

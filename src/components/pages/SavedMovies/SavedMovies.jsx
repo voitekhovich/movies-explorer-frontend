@@ -7,7 +7,7 @@ import SearchForm from "../../SearchForm/SearchForm";
 import Preloader from "../../Preloader/Preloader";
 import { useMovies } from "../../../hooks/useMovies";
 
-function SavedMovies() {
+function SavedMovies({tokenCheck}) {
   const [savedMovies, setSavedMovies] = useState([]);
   const [filter, setFilter] = useState({ query: "", checkBox: false });
   const [isLoading, setIsLoading] = useState(false);
@@ -36,6 +36,7 @@ function SavedMovies() {
   };
 
   React.useEffect(() => {
+    tokenCheck();
     setIsLoading(true);
     mainApi
       .getInitialCards()

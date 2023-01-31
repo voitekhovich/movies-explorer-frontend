@@ -1,30 +1,29 @@
 import "./SearchForm.css";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import FilterCheckbox from "../FilterCheckbox/FilterCheckbox";
 import { useFormAndValidation } from "../../hooks/useFormAndValidation";
-import { NEED_KEY_WORD } from "../../utils/constants";
 
 function SearchForm(props) {
   const { filter, setFilter, submitClick } = props;
-  // const [ isError, setIsError ] = useState(false);
-  const { values, setValues, handleChange, isValid } = useFormAndValidation();
+  const { values, setValues, handleChange } = useFormAndValidation();
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    // if (isValid) {
-      submitClick(values["search"]);
-      // setIsError(false);
-    // } else setIsError(true);
+    submitClick(values["search"]);
   };
 
   useEffect(() => {
-    setValues({ search: filter.query })
-  }, [filter.query])
+    setValues({ search: filter.query });
+  }, [filter.query]);
 
   return (
     <div className="search-form">
-      <form className="search-form__input-box" onSubmit={handleSubmit} noValidate>
+      <form
+        className="search-form__input-box"
+        onSubmit={handleSubmit}
+        noValidate
+      >
         <div className="search-form__icon"></div>
         <input
           className="search-form__input"
@@ -41,7 +40,6 @@ function SearchForm(props) {
           type="submit"
         ></button>
       </form>
-      {/* { isError ? <span className="search-form__input-error">{NEED_KEY_WORD}</span> : ''} */}
       <FilterCheckbox
         className="search-form__check-box"
         filter={filter}

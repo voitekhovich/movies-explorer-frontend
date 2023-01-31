@@ -23,11 +23,11 @@ export const useWindowSize = () => {
 export const useMoreCards = () => {
   const windowWidth = useWindowSize();
 
-  const getMoreCardsCount = useMemo(() => {
+  const getCountMoreCards = useMemo(() => {
     if (windowWidth < 633) return 1;
     if (windowWidth < 1137) return 2;
     return 3;
   }, [windowWidth]);
 
-  return getMoreCardsCount;
+  return [windowWidth, getCountMoreCards];
 };
