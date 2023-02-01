@@ -18,16 +18,16 @@ function Movies({ tokenCheck }) {
   const [infoMessage, setInfoMessage] = useState("");
   const [movList, setMovList] = useState([]);
   const [filter, setFilter] = useState({ query: "", checkBox: false });
-  const [counter, setCounter] = useState(0);
+  const [pageCounter, setPageCounter] = useState(0);
   const [resultMoviesList, moreCardsState] = useCountMoviesItems(
     movList,
     filter.checkBox,
     filter.query,
-    counter
+    pageCounter
   );
 
   const moreCardsHadle = () => {
-    setCounter((counter) => counter + 1);
+    setPageCounter((counter) => counter + 1);
   };
 
   const loadFirstData = () => {
@@ -49,6 +49,7 @@ function Movies({ tokenCheck }) {
   };
 
   async function handleSearchClick(query) {
+
     setInfoMessage("");
 
     if (query === "") {
@@ -68,13 +69,12 @@ function Movies({ tokenCheck }) {
         });
 
     setFilter((filter) => ({ ...filter, query }));
-    setCounter(0);
+    setPageCounter(0);
 
     setIsLoading(false);
   }
 
   useEffect(() => {
-    tokenCheck();
     setMovList(JSON.parse(localStorage.getItem("movList")) || []);
     setFilter(
       JSON.parse(localStorage.getItem("filter")) || {
@@ -114,7 +114,7 @@ function Movies({ tokenCheck }) {
       <SearchForm
         filter={filter}
         setFilter={setFilter}
-        submitClick={handleSearchClick}
+        submitClick={!isLoading ? handleSearchClick : ()=>{} }
       />
 
       <section className="movies">

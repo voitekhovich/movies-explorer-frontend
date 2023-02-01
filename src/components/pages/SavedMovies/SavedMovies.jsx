@@ -36,7 +36,7 @@ function SavedMovies({tokenCheck}) {
   };
 
   React.useEffect(() => {
-    tokenCheck();
+    // tokenCheck();
     setIsLoading(true);
     mainApi
       .getInitialCards()

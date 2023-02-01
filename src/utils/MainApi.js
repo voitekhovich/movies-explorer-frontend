@@ -62,13 +62,6 @@ class MainApi {
     });
   };
 
-  getContent = (token) => {
-    return this._request({
-      url: "/users/me",
-      // token,
-    });
-  };
-
   getInitialCards() {
     return this._request({
       url: "/movies",

@@ -38,14 +38,15 @@
   transform: translateY(9px) rotate(-45deg);
 }
 
-@media screen and (max-width: 1279px) {
+/* @media screen and (max-width: 1279px) {
   .burger-button {
     display: block;
   }
-}
+} */
 
 @media screen and (max-width: 767px) {
   .burger-button {
+    display: block;
     width: 40px;
     height: 43px;
   }

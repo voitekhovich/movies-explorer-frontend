@@ -13,18 +13,20 @@ import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import { mainApi } from "../../utils/MainApi";
 import ProtectedRoute from "../ProtectedRoute";
-import { CurrentUserContext } from "../../contexts/CurrentUserContext";
+import { AuthContext } from "../../contexts/AuthContext";
+import Preloader from "../Preloader/Preloader";
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(true);
   const [currentUser, setCurrentUser] = React.useState({});
   const history = useHistory();
 
   const handleLogin = (email, password) => {
     return mainApi.authorize(email, password).then((user) => {
-      setCurrentUser(user);
-      setIsLoggedIn(true);
       localStorage.clear();
+      setIsLoggedIn(true);
+      history.push("/movies");
     });
   };
 
@@ -64,6 +66,9 @@ export default function App() {
           default:
             console.log(err);
         }
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
 
@@ -72,37 +77,48 @@ export default function App() {
   }, []);
 
   React.useEffect(() => {
-    if (!isLoggedIn) return;
-    history.push("/movies");
+    tokenCheck();
   }, [isLoggedIn]);
+
+  if (isLoading) {
+    return <Preloader />;
+  }
 
   return (
     <React.Fragment>
-      <CurrentUserContext.Provider value={{ currentUser, setCurrentUser }}>
+      <AuthContext.Provider value={{ currentUser, setCurrentUser }}>
         <Switch>
-        <ProtectedRoute loggedIn={isLoggedIn}>
-            <Route path="/movies">
-              <Header onSignOut={handleSignOut} />
-              <Movies tokenCheck={tokenCheck} />
-              <Footer />
-            </Route>
-            <Route path="/saved-movies">
-              <Header onSignOut={handleSignOut} />
-              <SavedMovies tokenCheck={tokenCheck} />
-              <Footer />
-            </Route>
-            <Route path="/profile">
-              <Header onSignOut={handleSignOut} />
-              <Profile tokenCheck={tokenCheck} onSignOut={handleSignOut} />
-            </Route>
-            
+          <ProtectedRoute path="/movies" loggedIn={isLoggedIn}>
+            <Header onSignOut={handleSignOut} />
+            <Movies tokenCheck={tokenCheck} />
+            <Footer />
+          </ProtectedRoute>
+
+          <ProtectedRoute path="/saved-movies" loggedIn={isLoggedIn}>
+            <Header onSignOut={handleSignOut} />
+            <SavedMovies tokenCheck={tokenCheck} />
+            <Footer />
+          </ProtectedRoute>
+
+          <ProtectedRoute path="/profile" loggedIn={isLoggedIn}>
+            <Header onSignOut={handleSignOut} />
+            <Profile tokenCheck={tokenCheck} onSignOut={handleSignOut} />
           </ProtectedRoute>
 
           <Route path="/signin">
-            <Login onLogin={handleLogin} />
+            {isLoggedIn ? (
+              <Redirect to="/movies" />
+            ) : (
+              <Login onLogin={handleLogin} />
+            )}
           </Route>
+
           <Route path="/signup">
-            <Register onRegister={handleRegister} />
+            {isLoggedIn ? (
+              <Redirect to="/movies" />
+            ) : (
+              <Register onRegister={handleRegister} />
+            )}
           </Route>
 
           <Route exact path="/">
@@ -113,13 +129,12 @@ export default function App() {
             />
             <Main />
           </Route>
-          
+
           <Route path="*">
-              <PageNotFound />
-            </Route>
-          
+            <PageNotFound />
+          </Route>
         </Switch>
-      </CurrentUserContext.Provider>
+      </AuthContext.Provider>
     </React.Fragment>
   );
 }
