@@ -9,9 +9,9 @@ export const useCountMoviesItems = (movies, filter, query, counter) => {
   const [windowWidth, moreCardsCount] = useMoreCards();
 
   const firsHandler = () => {
-    if (windowWidth < 633) return setNowCountItems(3);
-    if (windowWidth < 1137) return setNowCountItems(4);
-    setNowCountItems(6);
+    if (windowWidth < 633) return setNowCountItems(5);
+    if (windowWidth < 1137) return setNowCountItems(8);
+    setNowCountItems(12);
   };
 
   useEffect(() => {
@@ -25,7 +25,7 @@ export const useCountMoviesItems = (movies, filter, query, counter) => {
     }
     const pers = nowCountItems % moreCardsCount;
 
-    if (pers > 0) {
+    if (windowWidth > 633 && pers > 0) {
       setNowCountItems(
         (nowCountItems) =>
           nowCountItems + moreCardsCount - pers + moreCardsCount
