@@ -1,22 +1,156 @@
-import './Profile.css';
+import "./Profile.css";
 
-import React from 'react';
+import React, { useContext, useState } from "react";
+import validator from "validator";
+import { AuthContext } from "../../../contexts/AuthContext";
+import { mainApi } from "../../../utils/MainApi";
+import { useFormAndValidation } from "../../../hooks/useFormAndValidation";
+import Preloader from "../../Preloader/Preloader";
+import {
+  FORM_EMAIL_INPUT_ERROR_HANDLER,
+  FORM_EMAIL_INPUT_PLACEHOLDER,
+  FORM_NAME_INPUT_PLACEHOLDER,
+  LINK_SIGNOUT_TITLE,
+  MESSAGE_CONFLICT_EMAIL,
+  MESSAGE_INCORRECT_USER_DATA,
+  namePattern,
+  PROFILE_SUBMIT_TITLE,
+  PROFILE_UPDATE_TITLE,
+  PROFILE_WELCOM_TITLE,
+} from "../../../utils/constants";
 
 function Profile(props) {
+  const [isLoading, setIsLoading] = useState(false);
+  const [isFormValid, setIsFormValid] = useState(false);
+  const [error, setError] = useState("");
+  const { currentUser, setCurrentUser } = useContext(AuthContext);
+
+  const {
+    values,
+    setValues,
+    isValid,
+    setIsValid,
+    errors,
+    setErrors,
+    handleChange,
+  } = useFormAndValidation();
+
+  const handleEmailChange = (evt) => {
+    handleChange(evt);
+    if (validator.isEmail(evt.target.value)) setIsValid(true);
+    else {
+      setIsValid(false);
+      setErrors({ ...errors, email: FORM_EMAIL_INPUT_ERROR_HANDLER });
+    }
+  };
+
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+    setIsLoading(true);
+    setError("");
+    return mainApi
+      .setUserInfo(values["name"], values["email"])
+      .then((user) => {
+        setCurrentUser(user);
+        setError(PROFILE_UPDATE_TITLE);
+        setIsFormValid(false)
+      })
+      .catch((err) => {
+        switch (err) {
+          case 400:
+            setError(MESSAGE_INCORRECT_USER_DATA);
+            break;
+          case 409:
+            setError(MESSAGE_CONFLICT_EMAIL);
+            break;
+          default:
+            setError(err);
+        }
+      })
+      .finally(() => setIsLoading(false));
+  };
+
+  React.useEffect(() => {
+    if (values.email === currentUser.email && values.name === currentUser.name)
+      setIsFormValid(false);
+    else setIsFormValid(true);
+    console.log(isFormValid);
+  }, [values]);
+
+  React.useEffect(() => {
+    setValues((values) => {
+      return {
+        ...values,
+        name: currentUser.name,
+        email: currentUser.email,
+      };
+    });
+  }, []);
+
   return (
-    <main className='profile'>
-      <div className='profile__box'>
-        <h2 className='profile__title'>Привет, Александр!</h2>
-        <form className='profile__form'>
-          <label className='profile__label'>Имя
-            <input className='profile__input' type="text" defaultValue="Александр" />
+    <main className="profile">
+      <div className="profile__box">
+        <h2 className="profile__title">
+          {PROFILE_WELCOM_TITLE}, {currentUser.name}!
+        </h2>
+        <form className="profile__form" onSubmit={handleSubmit} error={error}>
+          <label className="profile__label">
+            {FORM_NAME_INPUT_PLACEHOLDER}
+            <input
+              className="profile__input"
+              id="name"
+              name="name"
+              type="text"
+              value={values["name"] || ""}
+              errors={errors}
+              onChange={handleChange}
+              pattern={namePattern.pattern}
+              title={namePattern.title}
+              required
+            />
           </label>
-          <label className='profile__label'>E-mail
-            <input className='profile__input' type="email" defaultValue="pochta@yandex.ru"/>
+          {errors["name"] ? (
+            <span className="entry-field__input-error">{errors["name"]}</span>
+          ) : (
+            ""
+          )}
+          <label className="profile__label">
+            {FORM_EMAIL_INPUT_PLACEHOLDER}
+            <input
+              className="profile__input"
+              id="email"
+              name="email"
+              type="email"
+              placeholder={FORM_EMAIL_INPUT_PLACEHOLDER}
+              value={values["email"] || ""}
+              errors={errors}
+              onChange={handleEmailChange}
+              required
+            />
           </label>
-          <button className='profile__button profile__submit link-hover'>Редактировать</button>
+          {errors["email"] ? (
+            <span className="entry-field__input-error">{errors["email"]}</span>
+          ) : (
+            ""
+          )}
+
+          {isLoading && <Preloader />}
+
+          <span className="login-form__error">{error}</span>
+
+          <button
+            className="profile__button profile__submit link-hover"
+            disabled={!isFormValid || !isValid || isLoading}
+          >
+            {PROFILE_SUBMIT_TITLE}
+          </button>
         </form>
-        <button className='profile__button profile__exit link-hover'>Выйти из аккаунта</button>
+        <button
+          className="profile__button profile__exit link-hover"
+          onClick={props.onSignOut}
+        >
+          {LINK_SIGNOUT_TITLE}
+        </button>
       </div>
     </main>
   );

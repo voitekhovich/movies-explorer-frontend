@@ -41,6 +41,11 @@ html, body {
   opacity: .7;
 }
 
+.link-hover:disabled:hover {
+  cursor: default;
+  opacity: 1;
+}
+
 .text-nowrap {
   text-overflow: ellipsis;
   white-space: nowrap;

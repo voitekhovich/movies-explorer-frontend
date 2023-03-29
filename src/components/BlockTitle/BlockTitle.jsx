@@ -1,11 +1,9 @@
-import './BlockTitle.css';
+import "./BlockTitle.css";
 
-import React from 'react';
+import React from "react";
 
 function BlockTitle({ title }) {
-  return (
-    <h2 className='block-title'>{ title }</h2>
-  );
+  return <h2 className="block-title">{title}</h2>;
 }
 
 export default BlockTitle;

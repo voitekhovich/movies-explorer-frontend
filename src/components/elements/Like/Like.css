@@ -14,3 +14,9 @@
 .like_active {
   background-image: url(../../../images/like_active.svg);
 }
+
+.like_delete {
+  visibility: hidden;
+  background-image: url(../../../images/delete.svg);
+  cursor: pointer;
+}

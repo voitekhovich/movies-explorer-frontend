@@ -4,6 +4,19 @@
   justify-content: space-between;
 }
 
+.main__header .burger-button::before {
+  background: #fff;
+}
+
+.main__header .burger-button::after {
+  background: #fff;
+} 
+
+.main__header .burger-button::before {
+  box-shadow: 0 9px #fff;
+}
+
+
 .main__nav-tab {
   list-style: none;
   display: flex;

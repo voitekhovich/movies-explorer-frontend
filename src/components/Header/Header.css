@@ -21,10 +21,6 @@
   .header {
     padding-right: 30px;
     padding-left: 30px;
-    justify-content: space-between;
-  }
-  .header__nav-container {
-    display: none;
   }
 }
 
@@ -32,5 +28,9 @@
   .header {
     padding-right: 14px;
     padding-left: 14px;
+    justify-content: space-between;
+  }
+  .header__nav-container {
+    display: none;
   }
 }

@@ -1,34 +1,102 @@
-import React from 'react';
-import LoginForm from '../../LoginForm/LoginForm';
-import EntryField from '../../EntryField/EntryField';
+import React, { useState } from "react";
+import validator from "validator";
+import LoginForm from "../../LoginForm/LoginForm";
+import EntryField from "../../EntryField/EntryField";
+import { useFormAndValidation } from "../../../hooks/useFormAndValidation";
+import {
+  MESSAGE_CONFLICT_EMAIL,
+  MESSAGE_INCORRECT_USER_DATA,
+  namePattern,
+  REGISTR_FORM_LOGIN_TITLE,
+  FORM_NAME_INPUT_PLACEHOLDER,
+  REGISTR_FORM_SUBMIT_TITLE,
+  REGISTR_FORM_TITLE,
+  FORM_EMAIL_INPUT_PLACEHOLDER,
+  FORM_PASSWD_INPUT_PLACEHOLDER,
+  LINK_SIGNIN_TITLE,
+  FORM_EMAIL_INPUT_ERROR_HANDLER,
+} from "../../../utils/constants";
 
-function Register() {
+function Register(props) {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+  const {
+    values,
+    isValid,
+    setIsValid,
+    errors,
+    setErrors,
+    handleChange,
+  } = useFormAndValidation();
+
+  const handleEmailChange = (evt) => {
+    handleChange(evt);
+    if (validator.isEmail(evt.target.value)) setIsValid(true);
+    else {
+      setIsValid(false);
+      setErrors({ ...errors, email: FORM_EMAIL_INPUT_ERROR_HANDLER });
+    }
+  };
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+    setIsLoading(true);
+    props
+      .onRegister(values["name"], values["email"], values["password"])
+      .catch((err) => {
+        switch (err) {
+          case 400:
+            setError(MESSAGE_INCORRECT_USER_DATA);
+            break;
+          case 409:
+            setError(MESSAGE_CONFLICT_EMAIL);
+            break;
+          default:
+            setError(error);
+        }
+      })
+      .finally(() => setIsLoading(false));
+  };
 
   return (
     <LoginForm
-      title="Добро пожаловать!"
-      submitTitle="Зарегистрироваться"
-      subtitleText="Уже зарегистрированы?"
-      subtitleLinkText="Войти"
+      title={REGISTR_FORM_TITLE}
+      submitTitle={REGISTR_FORM_SUBMIT_TITLE}
+      subtitleText={REGISTR_FORM_LOGIN_TITLE}
+      subtitleLinkText={LINK_SIGNIN_TITLE}
       subtitleLink="/signin"
+      onSubmit={handleSubmit}
+      isValid={isValid}
+      error={error}
+      isLoading={isLoading}
     >
-      <EntryField 
+      <EntryField
         id="name"
         name="name"
         type="text"
-        placeholder="Имя"
+        placeholder={FORM_NAME_INPUT_PLACEHOLDER}
+        value={values["name"] || ""}
+        errors={errors}
+        onChange={handleChange}
+        pattern={namePattern.pattern}
+        title={namePattern.title}
       />
-      <EntryField 
+      <EntryField
         id="email"
         name="email"
         type="email"
-        placeholder="E-mail"
+        placeholder={FORM_EMAIL_INPUT_PLACEHOLDER}
+        value={values["email"] || ""}
+        errors={errors}
+        onChange={handleEmailChange}
       />
-      <EntryField 
+      <EntryField
         id="password"
         name="password"
         type="password"
-        placeholder="Пароль"
+        placeholder={FORM_PASSWD_INPUT_PLACEHOLDER}
+        value={values["password"] || ""}
+        errors={errors}
+        onChange={handleChange}
       />
     </LoginForm>
   );
