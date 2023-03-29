@@ -1,4 +1,4 @@
-# Проект «[MOVIES](https://movies.voitekhovich.nomoredomains.club/)» (backend)
+# Проект «[MOVIES](https://movies.voitekhovich.nomoredomains.club/)» (frontend)
 
 Дипломный проект [Яндекс.Практикум](https://practicum.yandex.ru/) по курсу "Web-разработчик".\
 Сервис, в котором можно найти фильмы по запросу и сохранить в личном кабинете.\
